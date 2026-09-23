@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#090b10">
-  <title>CHẤP TẤT — Card Draw</title>
+  <title>CHẤP TẤT — Rút bài</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
     <header class="topbar">
       <div class="brand">
         <div class="brand-mark">🎴</div>
-        <div><div class="brand-name">CHẤP TẤT</div><div class="brand-sub">CARD DRAW SYSTEM</div></div>
+        <div><div class="brand-name">CHẤP TẤT</div><div class="brand-sub">HỆ THỐNG RÚT BÀI</div></div>
       </div>
       <div class="top-actions">
         <button class="ghost-btn" id="rulesBtn">Luật</button>
@@ -28,17 +28,17 @@
         <section class="panel-section">
           <div class="section-title">NGƯỜI RÚT</div>
           <div class="player-switch">
-            <button class="player-btn" data-player="w">WHITE</button>
-            <button class="player-btn" data-player="b">BLACK</button>
+            <button class="player-btn" data-player="w">TRẮNG</button>
+            <button class="player-btn" data-player="b">ĐEN</button>
           </div>
         </section>
         <section class="panel-section">
           <div class="section-title">BỘ BÀI</div>
           <div class="deck-list">
-            <button class="deck-btn active" data-deck="handicap"><span>⚖️</span><b>HANDICAP</b><small>20 lá</small></button>
-            <button class="deck-btn" data-deck="opening"><span>♟️</span><b>OPENING FATE</b><small>20 lá</small></button>
-            <button class="deck-btn" data-deck="midgame"><span>⚡</span><b>MIDGAME FATE</b><small>20 lá</small></button>
-            <button class="deck-btn" data-deck="lastChance"><span>👑</span><b>LAST CHANCE</b><small>20 lá</small></button>
+            <button class="deck-btn active" data-deck="handicap"><span>⚖️</span><b>CHẤP QUÂN</b><small>20 lá</small></button>
+            <button class="deck-btn" data-deck="opening"><span>♟️</span><b>VẬN KHAI CUỘC</b><small>20 lá</small></button>
+            <button class="deck-btn" data-deck="midgame"><span>⚡</span><b>VẬN TRUNG CUỘC</b><small>20 lá</small></button>
+            <button class="deck-btn" data-deck="lastChance"><span>👑</span><b>CƠ HỘI CUỐI</b><small>20 lá</small></button>
           </div>
         </section>
         <section class="panel-section stats">
@@ -50,19 +50,19 @@
       <section class="draw-area">
         <div class="draw-header">
           <div><span class="phase-pill" id="deckName">HANDICAP</span><span id="playerName">WHITE</span></div>
-          <div class="draw-subtitle">Chọn bộ bài và rút một lá</div>
+          <div class="draw-subtitle">Chọn bộ bài rồi rút ngẫu nhiên một lá</div>
         </div>
 
         <div class="draw-stage">
           <div class="card-back">
             <div class="card-back-pattern">🎴</div>
             <div class="card-back-title">CHẤP TẤT</div>
-            <div class="card-back-sub">FATE CARD</div>
+            <div class="card-back-sub">LÁ ĐỊNH MỆNH</div>
           </div>
         </div>
 
         <button id="drawBtn" class="primary-btn draw-main">🎴 RÚT LÁ BÀI</button>
-        <p class="draw-note">Mỗi lá đã rút sẽ không xuất hiện lại cho đến khi bộ bài được làm mới.</p>
+        <p class="draw-note">Mỗi vòng có 20 lá. Lá được xáo ngẫu nhiên và không lặp lại cho đến khi rút hết bộ.</p>
       </section>
 
       <aside class="side-panel history-panel">
@@ -94,14 +94,16 @@
       <h2>Luật rút bài</h2>
       <div class="rules-scroll">
         <h3>1. Chọn người rút</h3>
-        <p>Chọn WHITE hoặc BLACK trước khi rút.</p>
+        <p>Chọn TRẮNG hoặc ĐEN trước khi rút.</p>
         <h3>2. Chọn bộ bài</h3>
-        <p>Chọn một trong 4 bộ: Handicap, Opening Fate, Midgame Fate hoặc Last Chance.</p>
-        <h3>3. Rút bài</h3>
-        <p>Nhấn RÚT LÁ BÀI. Hệ thống chọn ngẫu nhiên một lá theo tỷ lệ độ hiếm của bộ bài.</p>
-        <h3>4. Không lặp</h3>
-        <p>Lá đã rút của từng người trong từng bộ sẽ không được rút lại cho đến khi toàn bộ bộ đó được sử dụng hết.</p>
-        <h3>5. Làm mới</h3>
+        <p>Chọn một trong 4 bộ: Chấp Quân, Vận Khai Cuộc, Vận Trung Cuộc hoặc Cơ Hội Cuối.</p>
+        <h3>3. Rút bài ngẫu nhiên</h3>
+        <p>Nhấn RÚT LÁ BÀI. Hệ thống xáo toàn bộ các lá còn lại rồi lấy 1 lá ngẫu nhiên. Độ hiếm chỉ dùng để phân loại, không làm tăng cơ hội xuất hiện.</p>
+        <h3>4. Không lặp trong một vòng</h3>
+        <p>Lá đã rút của từng người trong từng bộ sẽ không xuất hiện lại cho đến khi đủ 20 lá được rút. Sau đó bộ bài được xáo lại từ đầu.</p>
+        <h3>5. Lợi thế, bất lợi và may rủi</h3>
+        <p>Một số lá có lợi, một số lá gây bất lợi cho người rút. Các lá MAY RỦI sẽ được tung kết quả ngẫu nhiên ngay khi mở lá.</p>
+        <h3>6. Làm mới</h3>
         <p>LÀM MỚI xóa lịch sử và đưa toàn bộ các bộ bài về trạng thái ban đầu.</p>
       </div>
     </div>
