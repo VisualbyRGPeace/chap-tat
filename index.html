@@ -18,6 +18,7 @@
         <div><div class="brand-name">CHẤP TẤT</div><div class="brand-sub">HỆ THỐNG RÚT BÀI</div></div>
       </div>
       <div class="top-actions">
+        <button class="ghost-btn" id="effectsBtn">Tất cả hiệu ứng</button>
         <button class="ghost-btn" id="rulesBtn">Luật</button>
         <button class="ghost-btn" id="resetBtn">Làm mới</button>
       </div>
@@ -37,7 +38,7 @@
           <div class="deck-list">
             <button class="deck-btn active" data-deck="handicap"><span>⚖️</span><b>CHẤP QUÂN</b><small>20 lá</small></button>
             <button class="deck-btn" data-deck="opening"><span>♟️</span><b>VẬN KHAI CUỘC</b><small>20 lá</small></button>
-            <button class="deck-btn" data-deck="midgame"><span>⚡</span><b>VẬN TRUNG CUỘC</b><small>20 lá</small></button>
+            <button class="deck-btn" data-deck="midgame"><span>⚡</span><b>VẬN TRUNG CUỘC</b><small>21 lá</small></button>
             <button class="deck-btn" data-deck="lastChance"><span>👑</span><b>CƠ HỘI CUỐI</b><small>20 lá</small></button>
           </div>
         </section>
@@ -49,7 +50,7 @@
 
       <section class="draw-area">
         <div class="draw-header">
-          <div><span class="phase-pill" id="deckName">HANDICAP</span><span id="playerName">WHITE</span></div>
+          <div><span class="phase-pill" id="deckName">CHẤP QUÂN</span><span id="playerName">TRẮNG</span></div>
           <div class="draw-subtitle">Chọn bộ bài rồi rút ngẫu nhiên một lá</div>
         </div>
 
@@ -62,7 +63,7 @@
         </div>
 
         <button id="drawBtn" class="primary-btn draw-main">🎴 RÚT LÁ BÀI</button>
-        <p class="draw-note">Mỗi vòng có 20 lá. Lá được xáo ngẫu nhiên và không lặp lại cho đến khi rút hết bộ.</p>
+        <p class="draw-note">Trong mỗi bộ, lá được xáo ngẫu nhiên và không lặp lại cho đến khi rút hết bộ.</p>
       </section>
 
       <aside class="side-panel history-panel">
@@ -83,7 +84,43 @@
         <div class="card-desc" id="cardDesc"></div>
         <div class="card-meta" id="cardMeta"></div>
       </div>
-      <div class="modal-actions"><button id="cardCloseBtn" class="primary-btn large">ĐÃ HIỂU</button></div>
+      <div class="modal-actions"><button id="cardActionBtn" class="primary-btn large">ĐÃ HIỂU</button><button id="cardCloseBtn" class="ghost-btn large">ĐÓNG</button></div>
+    </div>
+  </div>
+
+
+  <div id="diceModal" class="modal">
+    <div class="modal-card dice-modal">
+      <div class="modal-kicker">XÚC XẮC ĐỊNH MỆNH</div>
+      <div id="diceResult" class="dice-result">
+        <div id="diceValue" class="dice-face">?</div>
+        <div id="diceText" class="dice-text">SẴN SÀNG THẢ XÚC XẮC</div>
+      </div>
+      <p class="dice-rule">Kết quả từ 1–6 quyết định số nước liên tiếp ở lượt đi tiếp theo.</p>
+      <button id="diceRollBtn" class="primary-btn large">🎲 THẢ XÚC XẮC</button>
+      <button class="ghost-btn large" data-close="diceModal">ĐÓNG</button>
+    </div>
+  </div>
+
+  <div id="effectsModal" class="modal">
+    <div class="modal-card effects-modal">
+      <button class="modal-close" data-close="effectsModal">×</button>
+      <div class="modal-kicker">CHẤP TẤT</div>
+      <h2>Tất cả hiệu ứng</h2>
+      <p class="effects-intro">Danh sách ngắn gọn toàn bộ lá bài. Bấm vào một lá để xem toàn bộ luật.</p>
+      <div id="effectList" class="effect-list"></div>
+    </div>
+  </div>
+
+  <div id="effectDetailModal" class="modal">
+    <div class="modal-card effect-detail-modal">
+      <button class="modal-close" data-close="effectDetailModal">×</button>
+      <div id="effectDetailIcon" class="effect-detail-icon">🎴</div>
+      <div id="effectDetailRarity" class="card-rarity">THƯỜNG</div>
+      <div id="effectDetailType" class="card-type card-type-good">LỢI THẾ</div>
+      <h2 id="effectDetailTitle">Tên hiệu ứng</h2>
+      <p id="effectDetailText" class="effect-detail-text"></p>
+      <button class="ghost-btn large" data-close="effectDetailModal">ĐÓNG</button>
     </div>
   </div>
 
@@ -100,10 +137,12 @@
         <h3>3. Rút bài ngẫu nhiên</h3>
         <p>Nhấn RÚT LÁ BÀI. Hệ thống xáo toàn bộ các lá còn lại rồi lấy 1 lá ngẫu nhiên. Độ hiếm chỉ dùng để phân loại, không làm tăng cơ hội xuất hiện.</p>
         <h3>4. Không lặp trong một vòng</h3>
-        <p>Lá đã rút của từng người trong từng bộ sẽ không xuất hiện lại cho đến khi đủ 20 lá được rút. Sau đó bộ bài được xáo lại từ đầu.</p>
-        <h3>5. Lợi thế, bất lợi và may rủi</h3>
+        <p>Lá đã rút của từng người trong từng bộ sẽ không xuất hiện lại cho đến khi rút hết bộ. Sau đó bộ bài được xáo lại từ đầu.</p>
+        <h3>5. Lá XÚC XẮC ĐỊNH MỆNH</h3>
+        <p>Đây là lá hiếm nhất. Người rút được thả xúc xắc 1 lần. Kết quả 1–6 quyết định số nước liên tiếp ở lượt đi tiếp theo.</p>
+        <h3>6. Lợi thế, bất lợi và may rủi</h3>
         <p>Một số lá có lợi, một số lá gây bất lợi cho người rút. Các lá MAY RỦI sẽ được tung kết quả ngẫu nhiên ngay khi mở lá.</p>
-        <h3>6. Làm mới</h3>
+        <h3>7. Làm mới</h3>
         <p>LÀM MỚI xóa lịch sử và đưa toàn bộ các bộ bài về trạng thái ban đầu.</p>
       </div>
     </div>
