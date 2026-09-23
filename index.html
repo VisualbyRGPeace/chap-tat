@@ -1,110 +1,112 @@
 <!doctype html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#090b10" />
-  <title>CHẤP TẤT — Fate Chess</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090b10">
+  <title>CHẤP TẤT — Card Draw</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./styles.css" />
-  <script type="module">
-    import { Chess } from "https://cdn.jsdelivr.net/npm/chess.js@1.4.0/dist/esm/chess.js";
-    window.Chess = Chess;
-    const app = document.createElement("script");
-    app.src = "./app.js";
-    document.body.appendChild(app);
-  </script>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <div id="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">♟</div>
-        <div><div class="brand-name">CHẤP TẤT</div><div class="brand-sub">Fate Chess</div></div>
+        <div class="brand-mark">🎴</div>
+        <div><div class="brand-name">CHẤP TẤT</div><div class="brand-sub">CARD DRAW SYSTEM</div></div>
       </div>
       <div class="top-actions">
         <button class="ghost-btn" id="rulesBtn">Luật</button>
-        <button class="ghost-btn" id="newGameBtn">Ván mới</button>
+        <button class="ghost-btn" id="resetBtn">Làm mới</button>
       </div>
     </header>
 
-    <main class="layout">
-      <aside class="side-panel left-panel">
-        <section class="panel-section player-card">
-          <div class="player-head"><span class="dot white-dot"></span><strong>WHITE</strong></div>
-          <div id="whiteStatus" class="player-status">Chuẩn bị</div>
+    <main class="card-layout">
+      <aside class="side-panel">
+        <section class="panel-section">
+          <div class="section-title">NGƯỜI RÚT</div>
+          <div class="player-switch">
+            <button class="player-btn" data-player="w">WHITE</button>
+            <button class="player-btn" data-player="b">BLACK</button>
+          </div>
         </section>
-        <section class="panel-section"><div class="section-title">Active Cards</div><div id="whiteActive" class="mini-cards"></div></section>
-        <section class="panel-section"><div class="section-title">Card Log</div><div id="whiteLog" class="log-list"></div></section>
+        <section class="panel-section">
+          <div class="section-title">BỘ BÀI</div>
+          <div class="deck-list">
+            <button class="deck-btn active" data-deck="handicap"><span>⚖️</span><b>HANDICAP</b><small>20 lá</small></button>
+            <button class="deck-btn" data-deck="opening"><span>♟️</span><b>OPENING FATE</b><small>20 lá</small></button>
+            <button class="deck-btn" data-deck="midgame"><span>⚡</span><b>MIDGAME FATE</b><small>20 lá</small></button>
+            <button class="deck-btn" data-deck="lastChance"><span>👑</span><b>LAST CHANCE</b><small>20 lá</small></button>
+          </div>
+        </section>
+        <section class="panel-section stats">
+          <div><span>Đã rút</span><strong id="drawn">0</strong></div>
+          <div><span>Còn lại</span><strong id="remaining">20</strong></div>
+        </section>
       </aside>
 
-      <section class="board-area">
-        <div class="phase-bar"><span id="phaseLabel" class="phase-pill">SETUP</span><span id="turnLabel">Chưa bắt đầu</span></div>
-        <div class="board-wrap"><div id="board" class="board"></div></div>
-        <div class="controls">
-          <button id="drawBtn" class="primary-btn" disabled>🎴 RÚT LÁ BÀI</button>
-          <button id="resignBtn" class="ghost-btn">Đầu hàng</button>
+      <section class="draw-area">
+        <div class="draw-header">
+          <div><span class="phase-pill" id="deckName">HANDICAP</span><span id="playerName">WHITE</span></div>
+          <div class="draw-subtitle">Chọn bộ bài và rút một lá</div>
         </div>
-        <div class="mobile-panels"><div class="mobile-panel"><div class="section-title">Card Log</div><div id="mobileLog" class="log-list"></div></div></div>
+
+        <div class="draw-stage">
+          <div class="card-back">
+            <div class="card-back-pattern">🎴</div>
+            <div class="card-back-title">CHẤP TẤT</div>
+            <div class="card-back-sub">FATE CARD</div>
+          </div>
+        </div>
+
+        <button id="drawBtn" class="primary-btn draw-main">🎴 RÚT LÁ BÀI</button>
+        <p class="draw-note">Mỗi lá đã rút sẽ không xuất hiện lại cho đến khi bộ bài được làm mới.</p>
       </section>
 
-      <aside class="side-panel right-panel">
-        <section class="panel-section timer-card"><div class="timer-label">CLOCK</div><div id="clock" class="clock">∞</div></section>
-        <section class="panel-section"><div class="section-title">Move History</div><div id="moveHistory" class="move-list"></div></section>
-        <section class="panel-section"><div class="section-title">Card Log</div><div id="cardLog" class="log-list"></div></section>
+      <aside class="side-panel history-panel">
+        <section class="panel-section">
+          <div class="section-title">LỊCH SỬ RÚT</div>
+          <div id="history" class="draw-history"></div>
+        </section>
       </aside>
     </main>
   </div>
 
-  <div id="setupModal" class="modal active">
-    <div class="modal-card setup-card">
-      <div class="modal-kicker">FATE CHESS</div><h1>CHẤP TẤT</h1>
-      <p class="muted">Cờ vua. Nhưng số phận có luật riêng.</p>
-      <div class="setup-grid">
-        <label>Chế độ<select id="modeSelect"><option value="local">Local 2 Players</option></select></label>
-        <label>Handicap<select id="handicapToggle"><option value="on">ON</option><option value="off">OFF</option></select></label>
-        <label>Opening Fate<select id="openingToggle"><option value="on">ON</option><option value="off">OFF</option></select></label>
-        <label>Midgame Fate<select id="midgameToggle"><option value="on">ON</option><option value="off">OFF</option></select></label>
-        <label>Last Chance<select id="lastToggle"><option value="on">ON</option><option value="off">OFF</option></select></label>
-      </div>
-      <button id="startBtn" class="primary-btn large">START MATCH</button>
-    </div>
-  </div>
-
   <div id="cardModal" class="modal">
     <div class="modal-card card-modal">
-      <div id="cardReveal" class="fate-card">
-        <div class="card-rarity" id="cardRarity">COMMON</div><div class="card-icon" id="cardIcon">🎴</div>
-        <div class="card-title" id="cardTitle">CARD</div><div class="card-desc" id="cardDesc"></div><div class="card-meta" id="cardMeta"></div>
+      <div class="fate-card">
+        <div class="card-rarity" id="cardRarity">COMMON</div>
+        <div class="card-icon" id="cardIcon">🎴</div>
+        <div class="card-title" id="cardTitle">CARD</div>
+        <div class="card-desc" id="cardDesc"></div>
+        <div class="card-meta" id="cardMeta"></div>
       </div>
-      <div class="modal-actions"><button id="cardConfirmBtn" class="primary-btn">ĐÃ HIỂU</button></div>
-    </div>
-  </div>
-
-  <div id="choiceModal" class="modal">
-    <div class="modal-card"><div class="modal-kicker" id="choiceKicker">CHOOSE</div><h2 id="choiceTitle">Chọn</h2><p class="muted" id="choiceDesc"></p><div id="choiceOptions" class="choice-grid"></div></div>
-  </div>
-
-  <div id="lastChanceModal" class="modal">
-    <div class="modal-card"><div class="modal-kicker">LAST CHANCE</div><h2 id="lastChanceTitle">CHECKMATE</h2><p class="muted" id="lastChanceDesc"></p>
-      <button id="lastDrawBtn" class="primary-btn large">🎴 RÚT LAST CHANCE</button>
-      <button id="lastDeclineBtn" class="ghost-btn full">Chấp nhận thất bại</button>
+      <div class="modal-actions"><button id="cardCloseBtn" class="primary-btn large">ĐÃ HIỂU</button></div>
     </div>
   </div>
 
   <div id="rulesModal" class="modal">
-    <div class="modal-card rules-card"><button class="modal-close" data-close="rulesModal">×</button>
-      <div class="modal-kicker">CHẤP TẤT</div><h2>Luật chơi</h2>
+    <div class="modal-card rules-card">
+      <button class="modal-close" data-close="rulesModal">×</button>
+      <div class="modal-kicker">CHẤP TẤT</div>
+      <h2>Luật rút bài</h2>
       <div class="rules-scroll">
-        <h3>Trình tự</h3><p>Chấp quân → Opening Fate → Chơi cờ → Midgame Fate → Last Chance.</p>
-        <h3>Chấp quân</h3><p>Lá chấp áp dụng cho chính người rút. Quân bị chấp được lấy khỏi bàn trước khi khai cuộc. Không được chấp Vua.</p>
-        <h3>Opening Fate</h3><p>Mỗi người rút 1 lá trước nước đầu tiên.</p>
-        <h3>Midgame Fate</h3><p>Khi trung cuộc mở, người tới lượt có thể rút bài; rút bài làm mất lượt. Mỗi người tối đa 2 lần rút chủ động.</p>
-        <h3>Last Chance</h3><p>Khi bị chiếu hết và còn quyền, người chơi được rút 1 lá. Vua chọn 1 trong tối đa 3 ô an toàn; quân hỗ trợ được hệ thống random.</p>
+        <h3>1. Chọn người rút</h3>
+        <p>Chọn WHITE hoặc BLACK trước khi rút.</p>
+        <h3>2. Chọn bộ bài</h3>
+        <p>Chọn một trong 4 bộ: Handicap, Opening Fate, Midgame Fate hoặc Last Chance.</p>
+        <h3>3. Rút bài</h3>
+        <p>Nhấn RÚT LÁ BÀI. Hệ thống chọn ngẫu nhiên một lá theo tỷ lệ độ hiếm của bộ bài.</p>
+        <h3>4. Không lặp</h3>
+        <p>Lá đã rút của từng người trong từng bộ sẽ không được rút lại cho đến khi toàn bộ bộ đó được sử dụng hết.</p>
+        <h3>5. Làm mới</h3>
+        <p>LÀM MỚI xóa lịch sử và đưa toàn bộ các bộ bài về trạng thái ban đầu.</p>
       </div>
     </div>
   </div>
+
+  <script src="./app.js"></script>
 </body>
 </html>
