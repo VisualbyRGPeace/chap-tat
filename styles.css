@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root{
   --blue:#1679df;--blue2:#2f9cf2;--sky:#62c9ff;--navy:#0d3c8c;--deep:#082b68;
@@ -42,7 +42,7 @@ button{font:inherit;cursor:pointer}.hidden{display:none!important}
   overflow:hidden;
 }
 .panel-section{padding:16px;border-bottom:2px solid rgba(255,255,255,.12)}.panel-section:last-child{border-bottom:0}
-.section-title{font-family:'Press Start 2P',monospace;font-size:10px;color:#dff4ff;letter-spacing:.04em;margin-bottom:12px}
+.section-title{font-family:Inter,system-ui,sans-serif;font-size:10px;color:#dff4ff;letter-spacing:.04em;margin-bottom:12px}
 .player-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .player-btn{
   min-height:62px;border:2px solid rgba(255,255,255,.2);border-radius:11px;
