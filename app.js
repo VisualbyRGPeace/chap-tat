@@ -236,8 +236,8 @@ function performHandicap(card,color){
     else if(card.id==='h03') await removeN(3,['p'],'1 tốt');
     else if(card.id==='h04') await chooseFixed('e'+(color==='w'?2:7),color,'p');
     else if(card.id==='h05') await chooseFixed('d'+(color==='w'?2:7),color,'p');
-    else if(card.id==='h06') await choosePiece(['p'],'1 tốt cánh vua',['f','g','h']);
-    else if(card.id==='h07') await choosePiece(['p'],'1 tốt cánh hậu',['a','b','c']);
+    else if(card.id==='h06') await choosePiece(['p'],'1 tốt cánh vua',1,['f','g','h']);
+    else if(card.id==='h07') await choosePiece(['p'],'1 tốt cánh hậu',1,['a','b','c']);
     else if(card.id==='h08') await removeN(1,['n'],'1 mã');
     else if(card.id==='h09') await removeN(1,['b'],'1 tượng');
     else if(card.id==='h10'){await removeN(1,['n'],'1 mã');await removeN(1,['p'],'1 tốt');}
