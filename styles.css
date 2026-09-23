@@ -1,385 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Press+Start+2P&display=swap');
+
 :root{
-  --bg:#090b10;--panel:#11141b;--panel2:#171b24;--line:#282d39;--text:#f5f7fa;--muted:#98a0ae;--accent:#e8edf5;
-  --common:#7f8a9b;--rare:#58a6ff;--epic:#b277ff;--legendary:#f4c95d;--mythic:#ff6b9d;
-  --light:#e9edf2;--dark:#4d5664;
+  --blue:#1679df;--blue2:#2f9cf2;--sky:#62c9ff;--navy:#0d3c8c;--deep:#082b68;
+  --yellow:#ffd34f;--green:#45c96b;--purple:#8f57e8;--orange:#f49a32;--pink:#f15c9a;
+  --white:#f8fbff;--ink:#12315f;--muted:#d5e8ff;--line:rgba(255,255,255,.35);
 }
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,system-ui,sans-serif;background:radial-gradient(circle at 50% -20%,#1a2030 0,#090b10 45%);color:var(--text)}button,select{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.topbar{height:72px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:rgba(9,11,16,.85);backdrop-filter:blur(12px);position:sticky;top:0;z-index:20}.brand{display:flex;gap:12px;align-items:center}.brand-mark{width:42px;height:42px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:var(--panel2);font-size:24px}.brand-name{font-weight:800;letter-spacing:.08em}.brand-sub{font-size:11px;color:var(--muted);margin-top:2px}.top-actions{display:flex;gap:8px}
-.layout{max-width:1560px;margin:auto;padding:18px;display:grid;grid-template-columns:250px minmax(480px,760px) 250px;gap:18px;align-items:start}.side-panel{background:rgba(17,20,27,.92);border:1px solid var(--line);border-radius:18px;overflow:hidden}.panel-section{padding:15px;border-bottom:1px solid var(--line)}.panel-section:last-child{border-bottom:0}.player-head{display:flex;gap:8px;align-items:center;font-size:13px;letter-spacing:.08em}.dot{width:9px;height:9px;border-radius:99px}.white-dot{background:#fff;box-shadow:0 0 10px #fff}.player-status,.muted{font-size:12px;color:var(--muted);line-height:1.6}.section-title{font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.12em;margin-bottom:10px}.mini-cards{display:grid;gap:8px}.mini-card{border:1px solid var(--line);border-radius:12px;padding:10px;background:var(--panel2);font-size:11px}.mini-card strong{display:block;font-size:12px;margin-bottom:3px}.timer-card{text-align:center}.timer-label{font-size:10px;letter-spacing:.16em;color:var(--muted)}.clock{font-size:34px;font-weight:700;margin-top:4px}.move-list,.log-list{max-height:420px;overflow:auto;display:flex;flex-direction:column;gap:6px}.move-row,.log-row{display:grid;grid-template-columns:32px 1fr;gap:8px;font-size:11px;padding:6px 0;border-bottom:1px solid #1d2129}.move-row:last-child,.log-row:last-child{border-bottom:0}.move-num{color:var(--muted)}
-.board-area{min-width:0}.phase-bar{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 2px 10px;font-size:12px;color:var(--muted)}.phase-pill{padding:5px 8px;border:1px solid var(--line);border-radius:999px;color:var(--text);font-size:10px;letter-spacing:.1em;background:var(--panel)}.board-wrap{position:relative;aspect-ratio:1;border-radius:18px;overflow:hidden;box-shadow:0 28px 60px rgba(0,0,0,.35);border:1px solid #343a47}.board{display:grid;grid-template-columns:repeat(8,1fr);width:100%;height:100%}.square{position:relative;display:grid;place-items:center;font-size:clamp(30px,5vw,64px);user-select:none;transition:filter .1s,transform .08s}.square.light{background:var(--light)}.square.dark{background:var(--dark)}.square.selected{outline:4px solid rgba(91,151,255,.9);outline-offset:-4px}.square.legal::after{content:"";width:18%;height:18%;border-radius:50%;background:rgba(20,30,45,.45);position:absolute}.square.capture::after{content:"";width:74%;height:74%;border-radius:50%;border:5px solid rgba(40,50,65,.45);position:absolute}.coord-file,.coord-rank{position:absolute;font-size:9px;font-weight:700;opacity:.7}.coord-file{right:4px;bottom:3px}.coord-rank{left:4px;top:3px}.square.light .coord-file,.square.light .coord-rank{color:#55606f}.square.dark .coord-file,.square.dark .coord-rank{color:#ecf1f6}.board-overlay{position:absolute;inset:0;background:rgba(5,7,10,.42);display:grid;place-items:center;font-weight:700;font-size:24px;letter-spacing:.08em;backdrop-filter:blur(3px)}
-.controls{display:flex;gap:10px;margin-top:12px}.primary-btn,.ghost-btn{border:1px solid var(--line);border-radius:12px;padding:11px 15px;background:var(--panel2);color:var(--text);font-weight:700}.primary-btn{background:#f2f5f9;color:#0a0c10;border-color:#f2f5f9}.primary-btn:hover{filter:brightness(.94)}.ghost-btn:hover{background:#1b2029}.primary-btn:disabled{opacity:.45;cursor:not-allowed}.large{width:100%;padding:14px 16px}.full{width:100%;margin-top:8px}.mobile-panels{display:none}
-.modal{position:fixed;inset:0;background:rgba(2,4,7,.76);z-index:100;display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(8px)}.modal.active{display:flex}.modal-card{width:min(560px,100%);background:#10131a;border:1px solid #343b48;border-radius:22px;padding:24px;box-shadow:0 30px 90px rgba(0,0,0,.55);position:relative}.setup-card{text-align:center;width:min(620px,100%)}.setup-card h1{font-size:48px;margin:6px 0}.modal-kicker{font-size:10px;letter-spacing:.18em;color:var(--muted)}.setup-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:left;margin:22px 0}label{font-size:11px;color:var(--muted);display:grid;gap:7px}select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:10px}.fate-card{width:min(380px,100%);aspect-ratio:2/3;background:linear-gradient(145deg,#191d26,#0e1117);border:1px solid #3c4452;border-radius:24px;padding:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin:auto;box-shadow:0 26px 70px rgba(0,0,0,.45)}.card-rarity{font-size:10px;font-weight:800;letter-spacing:.16em;margin-bottom:24px}.card-icon{font-size:64px;margin-bottom:14px}.card-title{font-size:27px;font-weight:800;letter-spacing:.04em}.card-desc{font-size:14px;color:#c0c6d0;line-height:1.6;margin-top:10px}.card-meta{font-size:10px;color:var(--muted);margin-top:18px}.card-modal{background:transparent;border:0;box-shadow:none;text-align:center}.modal-actions{margin-top:16px}.choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:16px}.choice-btn{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:13px;text-align:left}.choice-btn:hover{border-color:#5e697a}.modal-close{position:absolute;top:12px;right:14px;background:none;border:0;color:var(--muted);font-size:26px}.rules-scroll{max-height:60vh;overflow:auto;padding-right:8px}.rules-scroll h3{font-size:13px;margin-top:18px}.rules-scroll p{font-size:12px;color:#c0c6d0;line-height:1.7}
-.rarity-common{color:var(--common)}.rarity-rare{color:var(--rare)}.rarity-epic{color:var(--epic)}.rarity-legendary{color:var(--legendary)}
-@media(max-width:1150px){.layout{grid-template-columns:190px minmax(420px,1fr) 190px;gap:12px}.side-panel{border-radius:15px}}
-@media(max-width:900px){.layout{grid-template-columns:1fr;padding:10px}.left-panel,.right-panel{display:none}.board-area{max-width:700px;margin:auto;width:100%}.mobile-panels{display:block;margin-top:12px}.mobile-panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:12px}.topbar{padding:0 14px}.controls{position:sticky;bottom:8px;z-index:10}}
-@media(max-width:520px){.setup-grid{grid-template-columns:1fr}.setup-card h1{font-size:38px}.fate-card{width:310px}.card-title{font-size:23px}.modal-card{padding:18px}.choice-grid{grid-template-columns:1fr}.phase-bar{font-size:10px}}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,system-ui,sans-serif;color:var(--white)}
+body{
+  background:#2d9bed url("./assets/background/bg-main.jpg") center/cover fixed no-repeat;
+  overflow-x:hidden;
+}
+body:before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(55,176,246,.08),rgba(7,52,125,.28));
+  z-index:-1;
+}
+button{font:inherit;cursor:pointer}.hidden{display:none!important}
 
-/* CARD DRAW ONLY */
-.card-layout{max-width:1500px;margin:auto;padding:18px;display:grid;grid-template-columns:250px minmax(420px,1fr) 300px;gap:18px;align-items:stretch;min-height:calc(100vh - 108px)}
-.player-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.player-btn,.deck-btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:11px}
-.player-btn{padding:11px 8px;font-size:11px;font-weight:800;letter-spacing:.06em}
-.player-btn.active{background:#f2f5f9;color:#0a0c10;border-color:#f2f5f9}
-.deck-list{display:grid;gap:8px}
-.deck-btn{display:grid;grid-template-columns:30px 1fr auto;grid-template-rows:1fr 1fr;align-items:center;text-align:left;padding:10px}
-.deck-btn span{grid-row:1/3;font-size:22px;text-align:center}
-.deck-btn b{font-size:11px}
-.deck-btn small{font-size:9px;color:var(--muted)}
-.deck-btn.active{border-color:#7d8797;background:#202632}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.stats div{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:12px;text-align:center}
-.stats span{display:block;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.1em}
-.stats strong{display:block;font-size:24px;margin-top:4px}
-.draw-area{display:flex;flex-direction:column;align-items:center;min-width:0}
-.draw-header{width:100%;display:flex;justify-content:space-between;align-items:center;padding:4px 2px 14px}
-.draw-header>div:first-child{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700}
-.draw-subtitle{font-size:11px;color:var(--muted)}
-.draw-stage{width:min(460px,90%);aspect-ratio:2/3;display:grid;place-items:center;flex:1;min-height:360px}
-.card-back{width:min(300px,72%);aspect-ratio:2/3;border:1px solid #4a5362;border-radius:24px;background:linear-gradient(145deg,#1d222c,#0c0f15);box-shadow:0 30px 70px rgba(0,0,0,.42);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
-.card-back:before{content:"";position:absolute;inset:12px;border:1px solid #303846;border-radius:17px}
-.card-back-pattern{font-size:66px;opacity:.9}
-.card-back-title{font-size:22px;font-weight:800;letter-spacing:.08em;margin-top:12px}
-.card-back-sub{font-size:9px;letter-spacing:.22em;color:var(--muted);margin-top:5px}
-.draw-main{width:min(460px,90%);font-size:14px;padding:15px}
-.draw-note{font-size:10px;color:var(--muted);margin:10px 0 0;text-align:center}
-.history-panel{min-height:0}
-.draw-history{max-height:calc(100vh - 160px);overflow:auto;display:flex;flex-direction:column;gap:5px}
-.draw-history-row{display:grid;grid-template-columns:26px 58px 1fr;gap:7px;align-items:center;padding:9px 0;border-bottom:1px solid #1d2129;font-size:10px}
-.history-index{color:var(--muted)}
-.history-player{font-size:9px;font-weight:800}
-.history-deck{color:var(--muted);font-size:8px}
-.draw-history-row strong{grid-column:1/-1;font-size:10px}
-.empty-state{color:var(--muted);font-size:11px;line-height:1.6;padding:12px 0}
-@media(max-width:1050px){.card-layout{grid-template-columns:210px minmax(360px,1fr);}.history-panel{grid-column:1/-1}.draw-history{max-height:220px}.draw-history-row{grid-template-columns:30px 70px 1fr}.draw-history-row strong{grid-column:auto}}
-@media(max-width:700px){.card-layout{grid-template-columns:1fr;padding:10px;min-height:auto}.side-panel{display:block}.history-panel{display:block}.draw-area{min-height:620px}.draw-header{display:block;text-align:center}.draw-header>div:first-child{justify-content:center;margin-bottom:8px}.draw-stage{min-height:420px}.deck-list{grid-template-columns:1fr 1fr}.stats{display:none}}
-@media(max-width:480px){.deck-list{grid-template-columns:1fr}.draw-area{min-height:560px}.draw-stage{min-height:350px}.card-back{width:210px}}
+.topbar{
+  height:76px;padding:8px 20px;display:flex;align-items:center;justify-content:space-between;
+  background:linear-gradient(180deg,#0e56b7,#0a438e);border-bottom:4px solid #082e6e;
+  box-shadow:0 4px 0 rgba(5,31,76,.35),0 8px 22px rgba(0,36,100,.25);
+  position:sticky;top:0;z-index:20;
+}
+.brand{display:flex;align-items:center;gap:10px}.brand-mark{width:48px;height:48px;border-radius:12px;overflow:hidden;display:grid;place-items:center}
+.brand-mark img{width:100%;height:100%;object-fit:contain;display:block}.brand-name{font-weight:800;font-size:18px;letter-spacing:.05em}.brand-sub{font-size:9px;color:#b9dcff;margin-top:2px;letter-spacing:.08em}
+.top-actions{display:flex;gap:8px}.ghost-btn{
+  border:2px solid rgba(255,255,255,.25);border-radius:12px;padding:10px 14px;
+  background:#124f9f;color:#fff;font-weight:800;box-shadow:0 4px 0 #082e6e;
+}
+.ghost-btn:hover{transform:translateY(-2px);filter:brightness(1.12)}.ghost-btn:active{transform:translateY(2px);box-shadow:0 1px 0 #082e6e}
 
-/* Nhãn kết quả của lá bài */
-.card-desc{display:flex;flex-direction:column;gap:10px;align-items:center}
-.card-type{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.08em}
-.card-type-good{background:rgba(64,190,120,.12);color:#72e0a4;border:1px solid rgba(64,190,120,.28)}
-.card-type-bad{background:rgba(225,78,78,.12);color:#ff8585;border:1px solid rgba(225,78,78,.30)}
-.card-type-luck{background:rgba(229,177,72,.13);color:#f3cb72;border:1px solid rgba(229,177,72,.30)}
-.card-description-text{display:block}
-.history-effect{display:block;margin-top:3px;font-size:9px;font-style:normal;letter-spacing:.05em;opacity:.7}
-
-.rarity-mythic{color:var(--mythic)}
-.card-modal .modal-actions{display:grid;gap:8px}
-.dice-modal{text-align:center;width:min(430px,100%)}
-.dice-result{padding:22px 10px 18px}
-.dice-face{width:118px;height:118px;margin:auto;border:1px solid #4a5362;border-radius:24px;background:linear-gradient(145deg,#202631,#0c0f15);display:grid;place-items:center;font-size:64px;font-weight:800;box-shadow:0 18px 45px rgba(0,0,0,.35)}
-.dice-result.revealed .dice-face{border-color:#ff6b9d;box-shadow:0 0 34px rgba(255,107,157,.18)}
-.dice-text{font-size:13px;font-weight:800;letter-spacing:.08em;margin-top:16px}
-.dice-rule{font-size:11px;color:var(--muted);line-height:1.6}
-.effects-modal{width:min(760px,100%);max-height:86vh}
-.effects-intro{font-size:12px;color:var(--muted);margin-top:-6px}
-.effect-list{max-height:64vh;overflow:auto;display:grid;gap:16px;padding-right:5px}
-.effect-group-title{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:800;letter-spacing:.1em;margin-bottom:7px;color:#cbd2dd}
-.effect-group-title span{font-size:9px;color:var(--muted);font-weight:500;letter-spacing:0}
-.effect-items{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-.effect-item{display:grid;grid-template-columns:28px 1fr auto;align-items:center;gap:7px;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:9px;text-align:left;color:var(--text)}
-.effect-item:hover{border-color:#687487;background:#1d232d}
-.effect-item-icon{font-size:17px;text-align:center}
-.effect-item-name{font-size:10px;font-weight:700}
-.effect-item-rarity{font-size:8px;font-weight:800;white-space:nowrap}
-.effect-detail-modal{text-align:center;width:min(500px,100%)}
-.effect-detail-icon{font-size:54px;margin:4px 0 10px}
-.effect-detail-modal h2{margin:10px 0 8px;font-size:24px}
-.effect-detail-text{font-size:13px;line-height:1.75;color:#c0c6d0;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px}
-.effect-detail-modal .card-type{margin-top:10px}
-@media(max-width:620px){.effect-items{grid-template-columns:1fr}.effects-modal{padding:16px}.effect-list{max-height:68vh}}
-
-.dice-roll-btn{font-size:14px;letter-spacing:.05em;transition:transform .15s,filter .15s,opacity .15s}
-.dice-roll-btn:hover{transform:translateY(-1px)}
-.dice-roll-btn:active{transform:translateY(1px)}
-.dice-roll-btn:disabled{opacity:.55;cursor:wait}
-.dice-result.rolling .dice-face{animation:diceShake .09s infinite alternate;transform-origin:center}
-@keyframes diceShake{from{transform:rotate(-7deg) scale(.96)}to{transform:rotate(7deg) scale(1.04)}}
-
-/* ASSET HOOKS — chỉ thay giao diện, không thay đổi logic app.js */
-.brand-mark{overflow:hidden}
-.brand-mark img{width:100%;height:100%;object-fit:contain;display:block}
-.asset-fallback{display:grid;place-items:center}
-.player-btn{display:flex;align-items:center;justify-content:center;gap:7px}
-.player-icon{width:20px;height:20px;display:inline-block;background-position:center;background-repeat:no-repeat;background-size:contain}
-.player-icon-white{background-image:url("./assets/player/player-white.png")}
-.player-icon-black{background-image:url("./assets/player/player-black.png")}
-.deck-btn .deck-icon{grid-row:1/3;width:30px;height:30px;background-position:center;background-repeat:no-repeat;background-size:contain}
-.deck-icon-handicap{background-image:url("./assets/deck-icons/icon-handicap.png")}
-.deck-icon-opening{background-image:url("./assets/deck-icons/icon-opening.png")}
-.deck-icon-midgame{background-image:url("./assets/deck-icons/icon-midgame.png")}
-.deck-icon-last-chance{background-image:url("./assets/deck-icons/icon-last-chance.png")}
-.card-back-pattern{width:72%;height:48%;display:grid;place-items:center}
-.card-back-pattern img{width:100%;height:100%;object-fit:contain;display:block}
-.card-back-pattern.asset-fallback{font-size:66px;width:auto;height:auto}
-@media(max-width:700px){
-  .brand-mark{width:38px;height:38px}
+.card-layout{
+  width:min(1540px,calc(100% - 28px));margin:14px auto 22px;
+  display:grid;grid-template-columns:280px minmax(420px,1fr) 300px;gap:14px;min-height:calc(100vh - 112px);
 }
-
-
-/* =========================================================
-   GLOBAL MOTION SYSTEM — visual only, app.js unchanged
-   ========================================================= */
-:root{
-  --motion-fast:160ms;
-  --motion-normal:280ms;
-  --motion-slow:520ms;
-  --ease-out:cubic-bezier(.22,1,.36,1);
-  --ease-spring:cubic-bezier(.2,.9,.2,1.25);
-}
-
-@keyframes appFadeUp{
-  from{opacity:0;transform:translateY(14px)}
-  to{opacity:1;transform:translateY(0)}
-}
-@keyframes panelIn{
-  from{opacity:0;transform:translateY(12px) scale(.985)}
-  to{opacity:1;transform:translateY(0) scale(1)}
-}
-@keyframes cardFloat{
-  0%,100%{transform:translateY(0) rotate(0deg)}
-  50%{transform:translateY(-7px) rotate(.4deg)}
-}
-@keyframes cardGlow{
-  0%,100%{box-shadow:0 30px 70px rgba(0,0,0,.42)}
-  50%{box-shadow:0 34px 86px rgba(91,151,255,.14),0 30px 70px rgba(0,0,0,.42)}
-}
-@keyframes shimmer{
-  0%{transform:translateX(-120%) rotate(18deg);opacity:0}
-  20%{opacity:.12}
-  55%{opacity:.05}
-  100%{transform:translateX(180%) rotate(18deg);opacity:0}
-}
-@keyframes buttonPulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
-  50%{box-shadow:0 0 0 5px rgba(255,255,255,.035)}
-}
-@keyframes modalIn{
-  from{opacity:0}
-  to{opacity:1}
-}
-@keyframes modalCardIn{
-  from{opacity:0;transform:translateY(18px) scale(.96)}
-  to{opacity:1;transform:translateY(0) scale(1)}
-}
-@keyframes drawCardReveal{
-  0%{opacity:0;transform:rotateY(90deg) scale(.82)}
-  55%{opacity:1;transform:rotateY(-10deg) scale(1.04)}
-  100%{opacity:1;transform:rotateY(0) scale(1)}
-}
-@keyframes historyNew{
-  from{opacity:0;transform:translateX(18px);max-height:0}
-  to{opacity:1;transform:translateX(0);max-height:100px}
-}
-@keyframes diceResult{
-  0%{opacity:0;transform:scale(.65) rotate(-12deg)}
-  65%{opacity:1;transform:scale(1.12) rotate(5deg)}
-  100%{opacity:1;transform:scale(1) rotate(0)}
-}
-@keyframes activeGlow{
-  0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0)}
-  50%{box-shadow:0 0 20px rgba(255,255,255,.055)}
-}
-
-/* Initial entrance */
-.topbar{animation:appFadeUp .55s var(--ease-out) both}
-.card-layout{animation:appFadeUp .65s .08s var(--ease-out) both}
-.side-panel{animation:panelIn .55s .14s var(--ease-out) both}
-.draw-area{animation:panelIn .6s .2s var(--ease-out) both}
-.history-panel{animation:panelIn .55s .26s var(--ease-out) both}
-
-/* Ambient card motion */
-.draw-stage{perspective:1000px}
-.card-back{
-  animation:cardFloat 4.8s ease-in-out infinite,cardGlow 3.8s ease-in-out infinite;
-  transform-style:preserve-3d;
-  will-change:transform,box-shadow;
-}
-.card-back:after{
-  content:"";
-  position:absolute;
-  width:65%;
-  height:150%;
-  left:-80%;
-  top:-25%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
-  transform:rotate(18deg);
-  pointer-events:none;
-  animation:shimmer 5.5s 1.5s ease-in-out infinite;
-}
-.card-back-pattern{position:relative;z-index:1}
-
-/* Buttons */
-.primary-btn,.ghost-btn,.player-btn,.deck-btn{
-  transition:transform var(--motion-fast) var(--ease-out),
-             background var(--motion-normal) ease,
-             border-color var(--motion-normal) ease,
-             box-shadow var(--motion-normal) ease,
-             filter var(--motion-fast) ease;
-}
-.primary-btn:hover,.ghost-btn:hover,.player-btn:hover,.deck-btn:hover{
-  transform:translateY(-2px);
-}
-.primary-btn:active,.ghost-btn:active,.player-btn:active,.deck-btn:active{
-  transform:translateY(1px) scale(.985);
-}
-.primary-btn:hover{
-  box-shadow:0 8px 24px rgba(255,255,255,.08);
-}
-.draw-main{
-  animation:buttonPulse 2.8s 1s ease-in-out infinite;
-}
-.draw-main:hover{
-  animation:none;
-  transform:translateY(-3px) scale(1.01);
-}
-.player-btn.active,.deck-btn.active{
-  animation:activeGlow 2.6s ease-in-out infinite;
-}
-
-/* Deck hover accent */
-.deck-btn{
-  position:relative;
+.side-panel{
+  background:linear-gradient(180deg,rgba(9,57,126,.94),rgba(8,43,100,.94));
+  border:3px solid #8bd6ff;border-radius:16px;box-shadow:0 6px 0 #07306f,0 16px 28px rgba(0,35,95,.25);
   overflow:hidden;
 }
-.deck-btn:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(110deg,transparent 25%,rgba(255,255,255,.055) 50%,transparent 75%);
-  transform:translateX(-120%);
-  transition:transform .55s ease;
-  pointer-events:none;
+.panel-section{padding:16px;border-bottom:2px solid rgba(255,255,255,.12)}.panel-section:last-child{border-bottom:0}
+.section-title{font-family:'Press Start 2P',monospace;font-size:10px;color:#dff4ff;letter-spacing:.04em;margin-bottom:12px}
+.player-switch{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.player-btn{
+  min-height:62px;border:2px solid rgba(255,255,255,.2);border-radius:11px;
+  background:#103d82;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px;font-size:12px;font-weight:800;
+  box-shadow:0 4px 0 #062a64;transition:.16s;
 }
-.deck-btn:hover:after{transform:translateX(120%)}
+.player-btn.active{background:#f7fbff;color:#14376d;border-color:#fff;box-shadow:0 4px 0 #b1d9f7}
+.player-btn:hover{transform:translateY(-2px)}
+.player-icon{width:27px;height:27px;display:inline-block;background:center/contain no-repeat}.player-icon-white{background-image:url("./assets/player/player-white.png")}.player-icon-black{background-image:url("./assets/player/player-black.png")}
 
-/* Draw history */
-.draw-history-row{
-  animation:historyNew .38s var(--ease-out) both;
-  transition:background var(--motion-normal) ease,
-             transform var(--motion-fast) var(--ease-out),
-             padding var(--motion-fast) ease;
+.deck-list{display:grid;gap:8px}.deck-btn{
+  position:relative;min-height:58px;border:2px solid rgba(255,255,255,.18);border-radius:10px;
+  background:#103d82;color:#fff;display:grid;grid-template-columns:38px 1fr auto;grid-template-rows:1fr 1fr;
+  align-items:center;text-align:left;padding:7px 10px;box-shadow:0 4px 0 #062a64;overflow:hidden;transition:.16s;
 }
-.draw-history-row:hover{
-  background:rgba(255,255,255,.025);
-  transform:translateX(3px);
-}
+.deck-btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.deck-btn.active{border-color:#55dcff;background:linear-gradient(90deg,#168df0,#2473d0);box-shadow:0 4px 0 #062a64,0 0 16px rgba(70,210,255,.28)}
+.deck-btn .deck-icon{grid-row:1/3;width:32px;height:32px;background:center/contain no-repeat}.deck-icon-handicap{background-image:url("./assets/deck-icons/icon-handicap.png")}.deck-icon-opening{background-image:url("./assets/deck-icons/icon-opening.png")}.deck-icon-midgame{background-image:url("./assets/deck-icons/icon-midgame.png")}.deck-icon-last-chance{background-image:url("./assets/deck-icons/icon-last-chance.png")}
+.deck-btn b{font-size:11px}.deck-btn small{font-size:9px;color:#cbe7ff}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stats div{background:rgba(3,31,77,.42);border:2px solid rgba(255,255,255,.12);border-radius:10px;text-align:center;padding:10px}.stats span{font-size:9px;color:#b9dcff;text-transform:uppercase}.stats strong{display:block;font-size:24px;margin-top:4px}
 
-/* Modal entrance */
-.modal.active{
-  animation:modalIn .24s ease both;
+.draw-area{min-width:0;display:flex;flex-direction:column;align-items:center;padding:0 8px}
+.draw-header{
+  width:min(640px,100%);min-height:82px;padding:15px 24px;margin:0 auto 6px;
+  background:linear-gradient(180deg,#a8754d,#815434);border:3px solid #e8bd74;border-radius:10px;
+  box-shadow:0 5px 0 #5b3822,0 10px 22px rgba(0,34,88,.18);position:relative;text-align:center;
 }
-.modal.active .modal-card{
-  animation:modalCardIn .42s var(--ease-out) both;
-}
-
-/* Card modal */
-.card-modal .fate-card{
-  animation:drawCardReveal .65s var(--ease-out) both;
-  transform-style:preserve-3d;
-}
-.card-modal .card-icon{
-  animation:cardFloat 3s ease-in-out infinite;
-}
-
-/* Dice */
-.dice-result.rolling{
-  transform-origin:center;
-}
-.dice-result.revealed{
-  animation:diceResult .48s var(--ease-spring) both;
-}
-.dice-face{
-  transition:transform .18s ease;
-}
-
-/* Effect library */
-.effect-item{
-  transition:transform var(--motion-fast) var(--ease-out),
-             border-color var(--motion-normal) ease,
-             background var(--motion-normal) ease,
-             box-shadow var(--motion-normal) ease;
-}
-.effect-item:hover{
-  transform:translateY(-3px) scale(1.01);
-  box-shadow:0 10px 28px rgba(0,0,0,.18);
-}
-.effect-detail-icon{
-  animation:cardFloat 3.2s ease-in-out infinite;
-}
-
-/* Modal close */
-.modal-close{
-  transition:transform var(--motion-fast) var(--ease-out),
-             color var(--motion-fast) ease;
-}
-.modal-close:hover{
-  color:var(--text);
-  transform:rotate(90deg) scale(1.1);
-}
-
-/* Reduced motion accessibility */
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    animation-duration:.01ms!important;
-    animation-iteration-count:1!important;
-    scroll-behavior:auto!important;
-    transition-duration:.01ms!important;
-  }
-}
-
-
-/* === SIMPLE COLORFUL PIXEL-ART THEME === */
-:root{
-  --pixel-blue:#2c84eb;--pixel-sky:#58c3ff;--pixel-cyan:#41dce6;
-  --pixel-yellow:#ffd748;--pixel-pink:#f45ea0;--pixel-purple:#9a5deb;
-  --pixel-green:#52d270;--pixel-navy:#143773;
-}
-body{
-  background:linear-gradient(180deg,#58c3ff 0%,#2c84eb 52%,#143773 100%);
-  image-rendering:auto;overflow-x:hidden;
-}
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;
-  background-image:radial-gradient(circle at 20% 20%,#fff 0 2px,transparent 3px),radial-gradient(circle at 75% 35%,#ffd748 0 2px,transparent 3px),radial-gradient(circle at 55% 75%,#fff 0 2px,transparent 3px);
-  background-size:170px 150px,220px 190px,260px 220px;
-  animation:pixelSparkle 7s linear infinite;
-}
-.topbar,.side-panel,.draw-area,.history-panel{
-  border-color:rgba(255,255,255,.35);
-  box-shadow:0 8px 0 rgba(10,25,58,.22),0 18px 35px rgba(10,40,100,.22);
-}
-.brand-mark,.deck-btn,.player-btn,.primary-btn,.ghost-btn,.card-back,.modal-card{
-  image-rendering:auto;
-}
-.deck-btn,.player-btn,.primary-btn,.ghost-btn{
-  transition:transform .16s steps(2),box-shadow .16s steps(2),filter .16s steps(2);
-}
-.deck-btn:hover,.player-btn:hover,.ghost-btn:hover{transform:translateY(-3px);filter:saturate(1.18);box-shadow:0 7px 0 rgba(10,25,58,.28),0 0 18px rgba(88,195,255,.38)}
-.deck-btn:active,.player-btn:active,.primary-btn:active,.ghost-btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(10,25,58,.25)}
-.primary-btn.draw-main{
-  animation:pixelButton 2.1s steps(4) infinite;
-  box-shadow:0 7px 0 #d58b27,0 0 24px rgba(255,215,72,.45);
-}
-.primary-btn.draw-main:hover{animation-play-state:paused;transform:translateY(-4px) scale(1.025)}
+.draw-header:before,.draw-header:after{content:"✦";position:absolute;color:#8be4ff;font-size:24px;top:25px}.draw-header:before{left:14px}.draw-header:after{right:14px}
+.draw-header>div:first-child{display:flex;align-items:center;justify-content:center;gap:9px;font-weight:800}.phase-pill{font-family:'Press Start 2P',monospace;font-size:9px;padding:7px 10px;border-radius:7px;background:#0c55ad;border:2px solid #8ad9ff}
+#playerName{color:#fff}.draw-subtitle{font-size:10px;color:#fff;margin-top:8px}
+.draw-stage{width:min(500px,100%);flex:1;min-height:440px;display:grid;place-items:center;perspective:1000px}
 .card-back{
-  animation:cardFloat 3.6s ease-in-out infinite;
-  box-shadow:0 12px 0 rgba(10,25,58,.28),0 0 35px rgba(88,195,255,.55);
+  width:min(280px,62%);aspect-ratio:2/3;border-radius:18px;background:#0a387e;
+  border:4px solid #ffd83e;box-shadow:0 7px 0 #05275c,0 0 34px rgba(91,205,255,.35);
+  position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;
+  animation:cardFloat 4s ease-in-out infinite;
 }
-.card-back-pattern img{filter:saturate(1.2)}
-.deck-btn.active,.player-btn.active{
-  animation:activeGlow 1.8s steps(3) infinite;
+.card-back:before{content:"";position:absolute;inset:8px;border:3px solid #52d9ff;border-radius:12px;pointer-events:none}
+.card-back-pattern{width:86%;height:86%;display:grid;place-items:center;z-index:1}.card-back-pattern img{width:100%;height:100%;object-fit:contain;display:block}
+.card-back-title,.card-back-sub{display:none}
+.draw-main{
+  width:min(480px,92%);padding:17px 20px;border:3px solid #ffe68a;border-radius:14px;
+  background:linear-gradient(180deg,#ffd95b,#ffb92f);color:#14376d;font-size:18px;font-weight:900;
+  box-shadow:0 6px 0 #c97816,0 0 22px rgba(255,212,74,.35);transition:.16s;
 }
-.draw-history .history-item{
-  animation:historyPop .35s steps(3) both;
+.draw-main:hover{transform:translateY(-3px) scale(1.01);filter:brightness(1.04)}.draw-main:active{transform:translateY(2px);box-shadow:0 2px 0 #c97816}
+.draw-note{font-size:10px;color:#dff1ff;text-align:center;margin:9px 0 0}
+
+.history-panel{min-height:0}.draw-history{max-height:calc(100vh - 145px);overflow:auto;display:flex;flex-direction:column;gap:6px}
+.draw-history:empty:before{content:"Chưa có lá bài nào được rút.";display:block;color:#b9dcff;font-size:11px;padding:18px 4px}
+.draw-history-row{display:grid;grid-template-columns:28px 44px 1fr;gap:7px;align-items:center;padding:8px;border-bottom:1px solid rgba(255,255,255,.1);font-size:10px;animation:historyIn .35s both}.history-index{color:#b9dcff}.history-player{font-size:9px;font-weight:800}.history-deck{font-size:8px;color:#b9dcff}.draw-history-row strong{grid-column:1/-1;font-size:10px}
+
+.modal{position:fixed;inset:0;background:rgba(4,25,65,.7);z-index:100;display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(5px)}.modal.active{display:flex}
+.modal-card{width:min(560px,100%);background:linear-gradient(180deg,#1263c1,#083a82);border:3px solid #8bd6ff;border-radius:16px;padding:22px;box-shadow:0 8px 0 #05275c,0 25px 70px rgba(0,25,70,.45);position:relative}
+.modal-close{position:absolute;top:8px;right:10px;background:none;border:0;color:#fff;font-size:28px}.modal-close:hover{transform:rotate(90deg)}
+.fate-card{width:min(380px,100%);aspect-ratio:2/3;background:#0b3e87;border:4px solid #ffd84c;border-radius:18px;padding:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin:auto;box-shadow:0 7px 0 #05275c}
+.card-rarity{font-size:10px;font-weight:900;letter-spacing:.12em;margin-bottom:18px}.card-icon{font-size:60px}.card-title{font-size:25px;font-weight:900;margin-top:10px}.card-desc{font-size:13px;line-height:1.6;color:#e6f4ff;margin-top:9px}.card-meta{font-size:10px;color:#b9dcff;margin-top:15px}.modal-actions{margin-top:12px}
+.primary-btn{border:2px solid #ffe68a;border-radius:11px;padding:12px 15px;background:#ffd34f;color:#17366d;font-weight:900;box-shadow:0 4px 0 #c97816}.large{width:100%;padding:14px}.modal-kicker{font-family:'Press Start 2P',monospace;font-size:9px;color:#dff4ff}
+.effects-modal h2,.effect-detail-modal h2,.rules-card h2{font-family:'Press Start 2P',monospace;font-size:18px}.effects-intro,.rules-scroll p,.effect-detail-text{color:#d8edff;font-size:12px;line-height:1.7}.effect-list{max-height:64vh;overflow:auto;display:grid;gap:12px}.effect-group-title{font-size:11px;font-weight:900;margin-bottom:6px}.effect-items{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}.effect-item{border:2px solid rgba(255,255,255,.16);border-radius:9px;background:#0e4a97;color:#fff;padding:9px;display:grid;grid-template-columns:28px 1fr auto;gap:6px;text-align:left}.effect-item:hover{background:#1767c0;transform:translateY(-2px)}.effect-item-icon{font-size:17px}.effect-item-name{font-size:10px;font-weight:800}.effect-item-rarity{font-size:8px}.effect-detail-modal{text-align:center}.effect-detail-icon{font-size:54px}.effect-detail-text{background:rgba(4,35,85,.35);border:2px solid rgba(255,255,255,.12);border-radius:10px;padding:12px;text-align:left}.rules-scroll{max-height:60vh;overflow:auto}.rules-scroll h3{font-size:13px;color:#fff}
+.dice-modal{text-align:center}.dice-result{padding:18px}.dice-face{width:110px;height:110px;margin:auto;border-radius:18px;background:#f8fbff;color:#12315f;border:4px solid #ffd34f;display:grid;place-items:center;font-size:58px;box-shadow:0 6px 0 #c97816}.dice-text{font-size:12px;font-weight:900;margin-top:14px}.dice-rule{font-size:11px;color:#d5e8ff;line-height:1.6}
+
+@keyframes cardFloat{0%,100%{transform:translateY(0) rotate(-.5deg)}50%{transform:translateY(-9px) rotate(.5deg)}}
+@keyframes historyIn{from{opacity:0;transform:translateX(12px)}to{opacity:1;transform:none}}
+@keyframes modalIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@keyframes sparkle{0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
+.draw-main{animation:sparkle 2.6s ease-in-out infinite}.modal.active .modal-card{animation:modalIn .28s ease both}
+.deck-btn.active,.player-btn.active{animation:sparkle 2.8s ease-in-out infinite}
+
+@media(max-width:1050px){
+  .card-layout{grid-template-columns:220px minmax(360px,1fr)}.history-panel{grid-column:1/-1}.draw-history{max-height:220px}
 }
-.modal{backdrop-filter:blur(4px)}
-.modal-card{animation:pixelModal .28s steps(4) both}
-.modal-close{transition:transform .18s steps(2);}.modal-close:hover{transform:scale(1.12) rotate(8deg)}
-@keyframes pixelSparkle{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
-@keyframes pixelButton{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
-@keyframes cardFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
-@keyframes activeGlow{0%,100%{box-shadow:0 5px 0 rgba(10,25,58,.25),0 0 8px rgba(88,195,255,.3)}50%{box-shadow:0 5px 0 rgba(10,25,58,.25),0 0 22px rgba(255,215,72,.65)}}
-@keyframes historyPop{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
-@keyframes pixelModal{from{opacity:0;transform:translateY(12px) scale(.94)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media(max-width:700px){
+  .topbar{height:auto;min-height:68px;padding:8px 10px}.brand-name{font-size:15px}.top-actions{gap:4px}.top-actions .ghost-btn{padding:8px 9px;font-size:10px}
+  .card-layout{width:calc(100% - 16px);grid-template-columns:1fr;min-height:auto}.draw-area{min-height:650px}.side-panel,.history-panel{display:block}
+  .draw-stage{min-height:420px}.card-back{width:220px}.deck-list{grid-template-columns:1fr 1fr}.stats{display:none}
+}
+@media(max-width:480px){
+  .top-actions .ghost-btn:first-child{display:none}.card-layout{margin-top:8px}.deck-list{grid-template-columns:1fr}.draw-area{min-height:580px}.draw-stage{min-height:350px}.card-back{width:205px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
