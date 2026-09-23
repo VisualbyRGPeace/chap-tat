@@ -327,3 +327,59 @@
     transition-duration:.01ms!important;
   }
 }
+
+
+/* === SIMPLE COLORFUL PIXEL-ART THEME === */
+:root{
+  --pixel-blue:#2c84eb;--pixel-sky:#58c3ff;--pixel-cyan:#41dce6;
+  --pixel-yellow:#ffd748;--pixel-pink:#f45ea0;--pixel-purple:#9a5deb;
+  --pixel-green:#52d270;--pixel-navy:#143773;
+}
+body{
+  background:linear-gradient(180deg,#58c3ff 0%,#2c84eb 52%,#143773 100%);
+  image-rendering:auto;overflow-x:hidden;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;
+  background-image:radial-gradient(circle at 20% 20%,#fff 0 2px,transparent 3px),radial-gradient(circle at 75% 35%,#ffd748 0 2px,transparent 3px),radial-gradient(circle at 55% 75%,#fff 0 2px,transparent 3px);
+  background-size:170px 150px,220px 190px,260px 220px;
+  animation:pixelSparkle 7s linear infinite;
+}
+.topbar,.side-panel,.draw-area,.history-panel{
+  border-color:rgba(255,255,255,.35);
+  box-shadow:0 8px 0 rgba(10,25,58,.22),0 18px 35px rgba(10,40,100,.22);
+}
+.brand-mark,.deck-btn,.player-btn,.primary-btn,.ghost-btn,.card-back,.modal-card{
+  image-rendering:auto;
+}
+.deck-btn,.player-btn,.primary-btn,.ghost-btn{
+  transition:transform .16s steps(2),box-shadow .16s steps(2),filter .16s steps(2);
+}
+.deck-btn:hover,.player-btn:hover,.ghost-btn:hover{transform:translateY(-3px);filter:saturate(1.18);box-shadow:0 7px 0 rgba(10,25,58,.28),0 0 18px rgba(88,195,255,.38)}
+.deck-btn:active,.player-btn:active,.primary-btn:active,.ghost-btn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(10,25,58,.25)}
+.primary-btn.draw-main{
+  animation:pixelButton 2.1s steps(4) infinite;
+  box-shadow:0 7px 0 #d58b27,0 0 24px rgba(255,215,72,.45);
+}
+.primary-btn.draw-main:hover{animation-play-state:paused;transform:translateY(-4px) scale(1.025)}
+.card-back{
+  animation:cardFloat 3.6s ease-in-out infinite;
+  box-shadow:0 12px 0 rgba(10,25,58,.28),0 0 35px rgba(88,195,255,.55);
+}
+.card-back-pattern img{filter:saturate(1.2)}
+.deck-btn.active,.player-btn.active{
+  animation:activeGlow 1.8s steps(3) infinite;
+}
+.draw-history .history-item{
+  animation:historyPop .35s steps(3) both;
+}
+.modal{backdrop-filter:blur(4px)}
+.modal-card{animation:pixelModal .28s steps(4) both}
+.modal-close{transition:transform .18s steps(2);}.modal-close:hover{transform:scale(1.12) rotate(8deg)}
+@keyframes pixelSparkle{0%{transform:translateY(0)}50%{transform:translateY(-10px)}100%{transform:translateY(0)}}
+@keyframes pixelButton{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+@keyframes cardFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-9px) rotate(1deg)}}
+@keyframes activeGlow{0%,100%{box-shadow:0 5px 0 rgba(10,25,58,.25),0 0 8px rgba(88,195,255,.3)}50%{box-shadow:0 5px 0 rgba(10,25,58,.25),0 0 22px rgba(255,215,72,.65)}}
+@keyframes historyPop{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes pixelModal{from{opacity:0;transform:translateY(12px) scale(.94)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
