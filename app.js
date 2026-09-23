@@ -361,18 +361,16 @@ document.querySelectorAll("[data-player]").forEach(btn=>{
 });
 $("drawBtn").onclick=draw;
 $("resetBtn").onclick=resetAll;
-$("cardCloseBtn").onclick=()=>$("cardModal").classList.remove("active");
 $("rulesBtn").onclick=()=>$("rulesModal").classList.add("active");
 $("effectsBtn").onclick=openEffectList;
 $("diceRollBtn").onclick=()=>{
   const result=rollDice();
-  if(state.currentCard){
-    state.history.unshift({
-      index:state.history.length+1,
-      player:state.player,
-      deck:state.deck,
-      card:{...state.currentCard, type:"good", outcome:{title:"XÚC XẮC: "+result,desc:"Lượt kế tiếp được đi "+result+" nước liên tiếp."}}
-    });
+  if(state.currentCard && state.history.length){
+    state.history[0].card={
+      ...state.currentCard,
+      type:"luck",
+      outcome:{title:"XÚC XẮC: "+result,desc:"Lượt kế tiếp được đi "+result+" nước liên tiếp."}
+    };
     renderHistory();
   }
 };
