@@ -90,9 +90,56 @@ const lastCards = [
  {id:'l20',name:'ĐẾ VƯƠNG',rarity:'legendary',icon:'👑🏰🐴⛪♟️',desc:'Vua + xe + mã + tượng + tốt.'}
 ];
 
+
 const DECKS = { handicap: handicapCards, opening: openingCards, midgame: midgameCards, lastChance: lastCards };
 
-const RARITY = { common:"COMMON", rare:"RARE", epic:"EPIC", legendary:"LEGENDARY" };
+/* Cân bằng lá bài: có lá lợi, lá bất lợi và lá may rủi. */
+const CARD_BALANCE = {
+  o05:{type:"bad",desc:"XUI XẺO — Một xe của BẠN bị khóa trong 3 lượt đầu. Bạn không được tự chọn xe."},
+  o13:{type:"bad",desc:"XUI XẺO — Hậu của BẠN không được di chuyển trong 4 nước đầu."},
+  o20:{type:"bad",desc:"XUI XẺO — BẠN không được bắt quân trong 2 nước đầu, kể cả khi có cơ hội tốt."},
+  m03:{type:"bad",desc:"XUI XẺO — Một quân của BẠN được chọn ngẫu nhiên và không thể di chuyển trong 2 lượt đối phương."},
+  m09:{type:"bad",desc:"XUI XẺO — Đối phương chọn một quân của BẠN; ở lượt kế tiếp BẠN phải ưu tiên dùng quân đó nếu có nước hợp lệ."},
+  m17:{type:"bad",desc:"XUI XẺO — Ở lượt kế tiếp BẠN phải dùng cùng loại quân với nước vừa đi nếu có nước hợp lệ."},
+  l01:{type:"bad",desc:"XUI XẺO — Cơ hội hồi sinh thất bại. Không được nhận thêm quân."},
+  l06:{type:"bad",desc:"XUI XẺO — Hậu hồi sinh nhưng đối phương được quyền chọn ô xuất hiện trong số các ô hợp lệ."},
+  l20:{type:"bad",desc:"XUI XẺO — Đế vương không thành công: chỉ được hồi sinh VUA, không nhận các quân hỗ trợ."},
+
+  o10:{type:"luck",outcomes:[
+    {title:"MAY MẮN",desc:"Nước xuất phát đặc biệt được kích hoạt. Bạn nhận hiệu ứng của lá."},
+    {title:"XUI XẺO",desc:"Hiệu ứng thất bại. Bạn không nhận quyền đặc biệt của lá."}
+  ]},
+  o17:{type:"luck",outcomes:[
+    {title:"MAY MẮN",desc:"Bạn nhận thêm 1 lượt rút bộ VẬN TRUNG CUỘC."},
+    {title:"XUI XẺO",desc:"Bạn không nhận thêm lượt rút nào."}
+  ]},
+  m10:{type:"luck",outcomes:[
+    {title:"MAY MẮN",desc:"BOM HẸN GIỜ được kích hoạt. Bạn có thể nhận thêm 1 lượt rút nếu điều kiện đạt."},
+    {title:"XUI XẺO",desc:"Bom phản tác dụng. Bạn mất quyền rút thêm 1 lá ở lượt kế tiếp."}
+  ]},
+  m18:{type:"luck",outcomes:[
+    {title:"MAY MẮN",desc:"Một quân của bạn nhận khiên bảo vệ 1 lần bắt."},
+    {title:"XUI XẺO",desc:"Một quân được chọn ngẫu nhiên phải chờ 1 lượt trước khi được di chuyển."}
+  ]},
+  l10:{type:"luck",outcomes:[
+    {title:"MAY MẮN",desc:"Phản công thành công: nhận VUA + XE + TỐT."},
+    {title:"XUI XẺO",desc:"Phản công thất bại: chỉ nhận VUA, không nhận quân hỗ trợ."}
+  ]},
+  l15:{type:"luck",outcomes:[
+    {title:"MAY MẮN",desc:"Đội hỗ trợ đầy đủ: nhận VUA + MÃ + TƯỢNG + TỐT."},
+    {title:"XUI XẺO",desc:"Đội hỗ trợ đến muộn: chỉ nhận VUA + TỐT."}
+  ]}
+};
+
+for (const [id, effect] of Object.entries(CARD_BALANCE)) {
+  for (const deck of Object.values(DECKS)) {
+    const card = deck.find(item => item.id === id);
+    if (card) Object.assign(card, effect);
+  }
+}
+
+
+const RARITY = { common:"THƯỜNG", rare:"HIẾM", epic:"SỬ THI", legendary:"HUYỀN THOẠI" };
 const state = {
   player:"w",
   deck:"handicap",
@@ -103,40 +150,61 @@ const state = {
 
 const $ = id => document.getElementById(id);
 
-function weightedRarity(deck){
-  const weights = {
-    handicap:{common:60,rare:25,epic:12,legendary:3},
-    opening:{common:50,rare:30,epic:15,legendary:5},
-    midgame:{common:45,rare:30,epic:20,legendary:5},
-    lastChance:{common:55,rare:30,epic:12,legendary:3}
-  }[deck];
-  const roll=Math.random()*100;
-  let total=0;
-  for(const [rarity,weight] of Object.entries(weights)){
-    total+=weight;
-    if(roll<total) return rarity;
+function randomInt(max){
+  return Math.floor(Math.random()*max);
+}
+
+function shuffle(cards){
+  const result=[...cards];
+  for(let i=result.length-1;i>0;i--){
+    const j=randomInt(i+1);
+    [result[i],result[j]]=[result[j],result[i]];
   }
-  return "common";
+  return result;
 }
 
 function drawCard(deck,player){
   const used=state.used[player][deck];
   let pool=DECKS[deck].filter(card=>!used.includes(card.id));
+
+  // Mỗi vòng có đủ 20 lá và được xáo lại. Độ hiếm không làm tăng cơ hội rút.
   if(!pool.length){
     used.length=0;
-    pool=[...DECKS[deck]];
+    pool=shuffle(DECKS[deck]);
+  }else{
+    pool=shuffle(pool);
   }
-  const rarity=weightedRarity(deck);
-  const matching=pool.filter(card=>card.rarity===rarity);
-  const card=(matching.length?matching:pool)[Math.floor(Math.random()*(matching.length?matching.length:pool.length))];
+
+  const card=pool[0];
   used.push(card.id);
   return card;
 }
 
-function deckName(deck){
-  return {handicap:"HANDICAP",opening:"OPENING FATE",midgame:"MIDGAME FATE",lastChance:"LAST CHANCE"}[deck];
+function resolveCard(card){
+  const balance=CARD_BALANCE[card.id];
+  if(balance?.type==="luck" && Array.isArray(balance.outcomes)){
+    return {
+      ...card,
+      type:"luck",
+      outcome:balance.outcomes[randomInt(balance.outcomes.length)]
+    };
+  }
+  return {
+    ...card,
+    type:balance?.type || "good",
+    outcome:null
+  };
 }
-function playerName(player){return player==="w"?"WHITE":"BLACK";}
+
+function deckName(deck){
+  return {
+    handicap:"CHẤP QUÂN",
+    opening:"VẬN KHAI CUỘC",
+    midgame:"VẬN TRUNG CUỘC",
+    lastChance:"CƠ HỘI CUỐI"
+  }[deck];
+}
+function playerName(player){return player==="w"?"TRẮNG":"ĐEN";}
 
 function renderDeckButtons(){
   document.querySelectorAll("[data-deck]").forEach(btn=>{
@@ -158,7 +226,7 @@ function renderHistory(){
         <span class="history-index">#${item.index}</span>
         <span class="history-player">${playerName(item.player)}</span>
         <span class="history-deck">${deckName(item.deck)}</span>
-        <strong>${item.card.icon} ${item.card.name}</strong>
+        <strong>${item.card.icon} ${item.card.name}</strong><em class="history-effect">${item.card.type==="bad"?"BẤT LỢI":item.card.type==="luck"?(item.card.outcome?.title||"MAY RỦI"):"LỢI THẾ"}</em>
       </div>`).join("")
     : '<div class="empty-state">Chưa có lá bài nào được rút.</div>';
 }
@@ -168,13 +236,20 @@ function showCard(card){
   $("cardRarity").className="card-rarity rarity-"+card.rarity;
   $("cardIcon").textContent=card.icon;
   $("cardTitle").textContent=card.name;
-  $("cardDesc").textContent=card.desc;
-  $("cardMeta").textContent=`${deckName(state.deck)} • ${playerName(state.player)}`;
+
+  const typeLabel=card.type==="bad"?"BẤT LỢI":card.type==="luck"?"MAY RỦI":"LỢI THẾ";
+  const typeClass=card.type==="bad"?"card-type-bad":card.type==="luck"?"card-type-luck":"card-type-good";
+  $("cardDesc").innerHTML=
+    '<span class="card-type '+typeClass+'">'+typeLabel+'</span>'+
+    '<span class="card-description-text">'+(card.outcome ? card.outcome.title+" — "+card.outcome.desc : (card.desc || ""))+'</span>';
+
+  $("cardMeta").textContent=deckName(state.deck)+" • "+playerName(state.player)+" • RÚT NGẪU NHIÊN";
   $("cardModal").classList.add("active");
 }
 
 function draw(){
-  const card=drawCard(state.deck,state.player);
+  const rawCard=drawCard(state.deck,state.player);
+  const card=resolveCard(rawCard);
   state.currentCard=card;
   state.history.unshift({index:state.history.length+1,player:state.player,deck:state.deck,card});
   renderStats();
