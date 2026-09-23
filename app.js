@@ -31,15 +31,15 @@ const openingCards = [
  {id:'o07',name:'ĐỔI TỐT',rarity:'rare',icon:'🔄',desc:'Hai tốt ở cột được chỉ định đổi vị trí nếu vị trí mới hợp lệ.'},
  {id:'o08',name:'ĐÓNG TRUNG TÂM',rarity:'rare',icon:'🧊',desc:'Khóa d4+e5 hoặc d5+e4 trong 2 lượt đầu.'},
  {id:'o09',name:'THÁCH ĐẤU',rarity:'rare',icon:'⚔️',desc:'Trong 3 nước đầu phải tạo ít nhất một đòn tấn công quân đối phương nếu có nước hợp lệ.'},
- {id:'o10',name:'MÃ XUẤT PHÁT',rarity:'epic',icon:'🐴',desc:'Một mã được phép có nước xuất phát đặc biệt không bắt quân; dùng như rule flag trong MVP.'},
+ {id:'o10',name:'MÃ XUẤT PHÁT',rarity:'epic',icon:'🐴',desc:'Một mã được phép có nước xuất phát đặc biệt không bắt quân; dùng như luật đặc biệt trong phiên bản hiện tại.'},
  {id:'o11',name:'TỐT TIÊN PHONG',rarity:'epic',icon:'♟️',desc:'Một tốt được chọn được quyền đi 3 ô ở nước đầu nếu đường đi hoàn toàn trống.'},
- {id:'o12',name:'XE TỐC HÀNH',rarity:'epic',icon:'🏰',desc:'Một xe được phép thực hiện nước đầu đặc biệt không bắt quân; dùng như rule flag trong MVP.'},
+ {id:'o12',name:'XE TỐC HÀNH',rarity:'epic',icon:'🏰',desc:'Một xe được phép thực hiện nước đầu đặc biệt không bắt quân; dùng như luật đặc biệt trong phiên bản hiện tại.'},
  {id:'o13',name:'HẬU CẤM ĐƯỜNG',rarity:'common',icon:'👑',desc:'Hậu đối phương không được di chuyển trong 4 nước đầu.'},
  {id:'o14',name:'VUA AN TOÀN',rarity:'common',icon:'🛡️',desc:'Trong 3 nước đầu không được làm vua tiến vào vùng đang bị tấn công.'},
  {id:'o15',name:'ĐỔI QUÂN NHẸ',rarity:'rare',icon:'🎲',desc:'Một mã hoặc tượng đổi vị trí với quân cùng loại của chính họ nếu hợp lệ.'},
  {id:'o16',name:'PHONG TỎA CÁNH',rarity:'rare',icon:'🔒',desc:'Chọn cánh vua hoặc cánh hậu; giới hạn vượt hàng trong 3 lượt đầu.'},
- {id:'o17',name:'BẪY KHAI CUỘC',rarity:'epic',icon:'🪤',desc:'Nếu đối phương đưa cùng một quân đi 2 lần trong 4 nước đầu, nhận 1 Midgame Draw bổ sung.'},
- {id:'o18',name:'TIỀN THƯỞNG',rarity:'rare',icon:'💰',desc:'Nếu đối phương mất quân trong 5 nước đầu, nhận 1 Midgame Draw bổ sung.'},
+ {id:'o17',name:'BẪY KHAI CUỘC',rarity:'epic',icon:'🪤',desc:'Nếu đối phương đưa cùng một quân đi 2 lần trong 4 nước đầu, nhận 1 lượt rút Vận Trung Cuộc bổ sung.'},
+ {id:'o18',name:'TIỀN THƯỞNG',rarity:'rare',icon:'💰',desc:'Nếu đối phương mất quân trong 5 nước đầu, nhận 1 lượt rút Vận Trung Cuộc bổ sung.'},
  {id:'o19',name:'HOÁN ĐỔI TỐT',rarity:'rare',icon:'🔀',desc:'Chọn 2 tốt cùng hàng xuất phát; đổi vị trí nếu hợp lệ.'},
  {id:'o20',name:'CẤM BẮT',rarity:'rare',icon:'☠️',desc:'Đối phương không được bắt quân trong 2 nước đầu, trừ khi đó là cách duy nhất để thoát chiếu.'}
 ];
@@ -54,12 +54,12 @@ const midgameCards = [
  {id:'m07',name:'XE PHẢN CÔNG',rarity:'rare',icon:'🏰',desc:'Một xe nhận quyền thực hiện thêm một nước theo effect.'},
  {id:'m08',name:'ĐỔI VỊ TRÍ',rarity:'epic',icon:'🔄',desc:'Đổi vị trí 2 quân của chính mình nếu cả hai vị trí mới hợp lệ.'},
  {id:'m09',name:'KÉO QUÂN',rarity:'rare',icon:'🧲',desc:'Chọn 1 quân đối phương; nếu có nước hợp lệ, họ phải dùng quân đó ở lượt kế tiếp.'},
- {id:'m10',name:'BOM HẸN GIỜ',rarity:'epic',icon:'💣',desc:'Chọn 1 quân. Nếu đối phương không bắt quân đó trong 3 lượt, nhận 1 Midgame Draw bổ sung.'},
+ {id:'m10',name:'BOM HẸN GIỜ',rarity:'epic',icon:'💣',desc:'Chọn 1 quân. Nếu đối phương không bắt quân đó trong 3 lượt, nhận 1 lượt rút Vận Trung Cuộc bổ sung.'},
  {id:'m11',name:'ĐÓNG BĂNG',rarity:'common',icon:'🧊',desc:'Một quân đối phương bị khóa trong 2 lượt.'},
  {id:'m12',name:'ĐỔI MÁU',rarity:'epic',icon:'🩸',desc:'Đổi vị trí 1 quân mỗi bên nếu cùng giá trị và vị trí mới hợp lệ.'},
- {id:'m13',name:'NGỤY TRANG',rarity:'rare',icon:'🎭',desc:'UI ẩn loại quân được chọn trong 1 lượt.'},
+ {id:'m13',name:'NGỤY TRANG',rarity:'rare',icon:'🎭',desc:'Giao diện ẩn loại quân được chọn trong 1 lượt.'},
  {id:'m14',name:'THOÁT HIỂM',rarity:'epic',icon:'🏃',desc:'Một quân đang bị tấn công được dịch chuyển tới ô hợp lệ theo effect.'},
- {id:'m15',name:'TIỀN LÃI',rarity:'rare',icon:'💰',desc:'Nếu bắt được quân trong 3 lượt tiếp theo, nhận 1 Midgame Draw.'},
+ {id:'m15',name:'TIỀN LÃI',rarity:'rare',icon:'💰',desc:'Nếu bắt được quân trong 3 lượt tiếp theo, nhận 1 lượt rút Vận Trung Cuộc.'},
  {id:'m16',name:'LỜI NGUYỀN',rarity:'rare',icon:'☠️',desc:'Quân đối phương bắt quân của bạn trong 2 lượt tới sẽ bị khóa 1 lượt.'},
  {id:'m17',name:'PHẢN CHIẾU',rarity:'epic',icon:'🪞',desc:'Nước tiếp theo của đối phương phải dùng cùng loại quân với nước vừa thực hiện nếu có nước hợp lệ.'},
  {id:'m18',name:'ĐỊNH MỆNH',rarity:'common',icon:'🎲',desc:'Hệ thống chọn ngẫu nhiên 1 quân của bạn nhận shield 1 lần bắt.'},
@@ -130,6 +130,11 @@ const CARD_BALANCE = {
     {title:"XUI XẺO",desc:"Đội hỗ trợ đến muộn: chỉ nhận VUA + TỐT."}
   ]}
 };
+
+// Bộ CHẤP QUÂN luôn là nhóm bất lợi cho người rút.
+for (const card of handicapCards) {
+  CARD_BALANCE[card.id] = {type:"bad",desc:"XUI XẺO — "+card.desc};
+}
 
 for (const [id, effect] of Object.entries(CARD_BALANCE)) {
   for (const deck of Object.values(DECKS)) {
