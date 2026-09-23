@@ -88,3 +88,10 @@
 .effect-detail-text{font-size:13px;line-height:1.75;color:#c0c6d0;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:14px}
 .effect-detail-modal .card-type{margin-top:10px}
 @media(max-width:620px){.effect-items{grid-template-columns:1fr}.effects-modal{padding:16px}.effect-list{max-height:68vh}}
+
+.dice-roll-btn{font-size:14px;letter-spacing:.05em;transition:transform .15s,filter .15s,opacity .15s}
+.dice-roll-btn:hover{transform:translateY(-1px)}
+.dice-roll-btn:active{transform:translateY(1px)}
+.dice-roll-btn:disabled{opacity:.55;cursor:wait}
+.dice-result.rolling .dice-face{animation:diceShake .09s infinite alternate;transform-origin:center}
+@keyframes diceShake{from{transform:rotate(-7deg) scale(.96)}to{transform:rotate(7deg) scale(1.04)}}
