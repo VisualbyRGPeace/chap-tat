@@ -250,6 +250,30 @@ function rollDice(){
   return result;
 }
 
+function animateDiceRoll(){
+  const btn=$("diceRollBtn"),face=$("diceValue"),box=$("diceResult");
+  btn.disabled=true;
+  box.classList.remove("revealed");
+  box.classList.add("rolling");
+  face.textContent="🎲";
+  $("diceText").textContent="ĐANG TUNG XÚC XẮC...";
+  let ticks=0;
+  const timer=setInterval(()=>{
+    face.textContent=String(randomInt(6)+1);
+    ticks++;
+    if(ticks>=8){
+      clearInterval(timer);
+      const result=rollDice();
+      box.classList.remove("rolling");
+      btn.disabled=false;
+      if(state.currentCard && state.history.length){
+        state.history[0].card={...state.currentCard,type:"luck",outcome:{title:"XÚC XẮC: "+result,desc:"Lượt kế tiếp được đi "+result+" nước liên tiếp."}};
+        renderHistory();
+      }
+    }
+  },90);
+}
+
 function openEffectList(){
   const groups=[
     ["CHẤP QUÂN","handicap"],
@@ -363,17 +387,7 @@ $("drawBtn").onclick=draw;
 $("resetBtn").onclick=resetAll;
 $("rulesBtn").onclick=()=>$("rulesModal").classList.add("active");
 $("effectsBtn").onclick=openEffectList;
-$("diceRollBtn").onclick=()=>{
-  const result=rollDice();
-  if(state.currentCard && state.history.length){
-    state.history[0].card={
-      ...state.currentCard,
-      type:"luck",
-      outcome:{title:"XÚC XẮC: "+result,desc:"Lượt kế tiếp được đi "+result+" nước liên tiếp."}
-    };
-    renderHistory();
-  }
-};
+$("diceRollBtn").onclick=animateDiceRoll;
 document.querySelectorAll("[data-close]").forEach(btn=>{
   btn.onclick=()=>$(btn.dataset.close).classList.remove("active");
 });
