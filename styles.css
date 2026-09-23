@@ -123,3 +123,260 @@ button{font:inherit;cursor:pointer}.hidden{display:none!important}
   .top-actions .ghost-btn:first-child{display:none}.card-layout{margin-top:8px}.deck-list{grid-template-columns:1fr}.draw-area{min-height:580px}.draw-stage{min-height:350px}.card-back{width:205px}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+
+/* =========================================================
+   RESPONSIVE STABILITY PATCH — PC + TABLET + MOBILE
+   Visual/layout only. app.js unchanged.
+   ========================================================= */
+html{width:100%;min-width:0;overflow-x:hidden}
+body{width:100%;min-width:0;overflow-x:hidden;-webkit-text-size-adjust:100%}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+img{max-width:100%}
+
+/* PC: use available viewport without forcing horizontal overflow */
+.card-layout{
+  width:min(1540px,calc(100% - 28px));
+  grid-template-columns:minmax(220px,280px) minmax(0,1fr) minmax(250px,300px);
+}
+.draw-area{min-width:0}
+.draw-header{max-width:100%;min-width:0}
+.draw-stage{width:min(500px,100%);min-width:0}
+.card-back{max-width:280px}
+.history-panel{min-width:0}
+.draw-history{min-width:0;scrollbar-gutter:stable}
+.deck-btn,.player-btn,.ghost-btn,.primary-btn{min-width:0}
+.deck-btn b,.deck-btn small,.draw-subtitle,.draw-note,.history-deck,.draw-history-row strong{
+  overflow:hidden;text-overflow:ellipsis;
+}
+
+/* Large desktop */
+@media(min-width:1400px){
+  .card-layout{grid-template-columns:280px minmax(520px,1fr) 300px;gap:18px}
+  .draw-stage{min-height:520px}
+  .card-back{width:280px}
+}
+
+/* Smaller desktop / laptop */
+@media(max-width:1199px) and (min-width:901px){
+  .card-layout{grid-template-columns:230px minmax(0,1fr) 250px;gap:12px;width:calc(100% - 20px)}
+  .side-panel{border-radius:14px}
+  .panel-section{padding:13px}
+  .draw-header{padding:13px 18px}
+  .draw-stage{min-height:400px}
+  .card-back{width:245px}
+  .draw-main{width:min(420px,92%)}
+}
+
+/* Tablet: stack history under the main area */
+@media(max-width:900px) and (min-width:701px){
+  .topbar{padding:8px 14px}
+  .brand-mark{width:44px;height:44px}
+  .brand-name{font-size:16px}
+  .top-actions{flex-wrap:wrap;justify-content:flex-end}
+  .top-actions .ghost-btn{padding:9px 11px;font-size:11px}
+
+  .card-layout{
+    width:calc(100% - 20px);
+    grid-template-columns:210px minmax(0,1fr);
+    gap:12px;
+    min-height:calc(100vh - 104px);
+  }
+  .history-panel{
+    grid-column:1/-1;
+    width:100%;
+  }
+  .draw-history{
+    max-height:230px;
+  }
+  .draw-history-row{grid-template-columns:30px 65px minmax(0,1fr)}
+  .draw-history-row strong{grid-column:auto}
+  .draw-area{min-height:700px}
+  .draw-stage{min-height:470px}
+  .card-back{width:240px}
+}
+
+/* Mobile */
+@media(max-width:700px){
+  html,body{min-height:100%;height:auto}
+  body{
+    background-attachment:scroll;
+    background-size:auto 100%;
+    background-position:center top;
+  }
+
+  .topbar{
+    position:relative;
+    height:auto;
+    min-height:64px;
+    padding:7px 9px;
+    gap:8px;
+    align-items:center;
+  }
+  .brand{min-width:0;flex:1}
+  .brand-mark{width:40px;height:40px;flex:0 0 40px}
+  .brand-name{font-size:14px;white-space:nowrap}
+  .brand-sub{font-size:8px;white-space:nowrap}
+  .top-actions{
+    flex:0 0 auto;
+    display:flex;
+    gap:4px;
+  }
+  .top-actions .ghost-btn{
+    padding:8px 8px;
+    font-size:9px;
+    border-radius:9px;
+    white-space:nowrap;
+  }
+
+  .card-layout{
+    width:calc(100% - 12px);
+    margin:8px auto 14px;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+    min-height:auto;
+  }
+
+  /* Put the main draw area first on phones */
+  .draw-area{order:1;width:100%;min-height:0;padding:0 3px}
+  .side-panel:not(.history-panel){order:2;width:100%}
+  .history-panel{order:3;width:100%}
+
+  .draw-header{
+    min-height:0;
+    width:100%;
+    margin:0;
+    padding:12px 34px;
+    border-radius:9px;
+  }
+  .draw-header:before,.draw-header:after{font-size:15px;top:24px}
+  .draw-header:before{left:9px}.draw-header:after{right:9px}
+  .draw-header>div:first-child{flex-wrap:wrap;gap:6px}
+  .phase-pill{font-size:8px;padding:6px 7px}
+  .draw-subtitle{font-size:9px;line-height:1.4;margin-top:6px}
+
+  .draw-stage{
+    width:100%;
+    height:auto;
+    min-height:0;
+    aspect-ratio:auto;
+    padding:18px 0 20px;
+    display:grid;
+    place-items:center;
+  }
+  .card-back{
+    width:min(54vw,210px);
+    min-width:170px;
+    max-width:210px;
+    box-shadow:0 6px 0 #05275c,0 0 24px rgba(91,205,255,.28);
+  }
+  .draw-main{
+    width:100%;
+    max-width:430px;
+    padding:14px 12px;
+    font-size:15px;
+  }
+  .draw-note{
+    max-width:430px;
+    line-height:1.45;
+    margin:7px auto 0;
+    padding:0 8px;
+  }
+
+  .side-panel{
+    border-radius:12px;
+  }
+  .panel-section{padding:12px}
+  .section-title{font-size:9px;margin-bottom:9px}
+  .player-btn{min-height:50px;font-size:11px}
+  .player-icon{width:23px;height:23px}
+  .deck-list{grid-template-columns:1fr 1fr;gap:7px}
+  .deck-btn{min-height:55px;grid-template-columns:32px minmax(0,1fr) auto;padding:7px 8px}
+  .deck-btn .deck-icon{width:28px;height:28px}
+  .deck-btn b{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .deck-btn small{font-size:8px}
+
+  .stats{display:none}
+
+  .history-panel .panel-section{padding-bottom:10px}
+  .draw-history{
+    max-height:210px;
+    overflow-x:hidden;
+  }
+  .draw-history-row{
+    grid-template-columns:26px 52px minmax(0,1fr);
+    padding:7px 2px;
+  }
+  .draw-history-row strong{
+    grid-column:1/-1;
+    overflow-wrap:anywhere;
+  }
+
+  /* Modals must fit small screens and remain scrollable */
+  .modal{
+    padding:10px;
+    align-items:center;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .modal-card{
+    width:min(560px,100%);
+    max-height:calc(100dvh - 20px);
+    overflow:auto;
+    padding:16px;
+    border-radius:13px;
+  }
+  .card-modal{
+    overflow:visible;
+    max-height:none;
+  }
+  .fate-card{
+    width:min(310px,88vw);
+    max-width:100%;
+    padding:18px;
+  }
+  .card-title{font-size:21px}
+  .card-desc{font-size:12px}
+  .card-icon{font-size:52px}
+  .modal-actions{padding-bottom:2px}
+  .effect-items{grid-template-columns:1fr}
+  .effects-modal .effect-list{max-height:none}
+  .rules-scroll{max-height:none}
+}
+
+/* Very small phones */
+@media(max-width:420px){
+  .topbar{align-items:flex-start}
+  .brand-mark{width:36px;height:36px;flex-basis:36px}
+  .brand-name{font-size:12px}
+  .brand-sub{font-size:7px}
+  .top-actions .ghost-btn{font-size:8px;padding:7px 6px}
+  .top-actions .ghost-btn:first-child{display:none}
+
+  .draw-header{padding:11px 28px}
+  .draw-header:before,.draw-header:after{display:none}
+  .draw-subtitle{font-size:8px}
+  .draw-stage{padding:15px 0 17px}
+  .card-back{width:190px;min-width:155px}
+  .draw-main{font-size:14px;padding:13px 10px}
+
+  .deck-list{grid-template-columns:1fr}
+  .deck-btn{min-height:52px}
+  .player-btn{min-height:48px}
+  .history-panel .draw-history{max-height:180px}
+}
+
+/* Prevent hover transforms from causing layout jitter on touch devices */
+@media(hover:none){
+  .deck-btn:hover,.player-btn:hover,.ghost-btn:hover,.draw-main:hover,.effect-item:hover{
+    transform:none;filter:none;
+  }
+  .deck-btn:active,.player-btn:active,.ghost-btn:active,.draw-main:active{
+    transform:scale(.985);
+  }
+}
+
+/* Keep animated elements inside their own paint area */
+.card-back,.draw-main,.deck-btn,.player-btn,.modal-card{will-change:transform}
