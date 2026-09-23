@@ -64,7 +64,8 @@ const midgameCards = [
  {id:'m17',name:'PHẢN CHIẾU',rarity:'epic',icon:'🪞',desc:'Nước tiếp theo của đối phương phải dùng cùng loại quân với nước vừa thực hiện nếu có nước hợp lệ.'},
  {id:'m18',name:'ĐỊNH MỆNH',rarity:'common',icon:'🎲',desc:'Hệ thống chọn ngẫu nhiên 1 quân của bạn nhận shield 1 lần bắt.'},
  {id:'m19',name:'CUỒNG NỘ',rarity:'legendary',icon:'🔥',desc:'Một quân được chọn nhận quyền thực hiện 2 lần bắt liên tiếp nếu hợp lệ.'},
- {id:'m20',name:'HỖN LOẠN',rarity:'legendary',icon:'👹',desc:'Chọn ngẫu nhiên 3 quân và xáo vị trí nếu trạng thái sau cùng hợp lệ.'}
+ {id:'m20',name:'HỖN LOẠN',rarity:'legendary',icon:'👹',desc:'Chọn ngẫu nhiên 3 quân và xáo vị trí nếu trạng thái sau cùng hợp lệ.'},
+ {id:'m21',name:'XÚC XẮC ĐỊNH MỆNH',rarity:'mythic',icon:'🎲',desc:'Lá hiếm nhất. Người rút được quyền thả một viên xúc xắc. Lượt đi tiếp theo được thực hiện liên tiếp đúng số nước bằng kết quả xúc xắc (1–6 nước).',special:'dice'},
 ];
 
 const lastCards = [
@@ -144,7 +145,7 @@ for (const [id, effect] of Object.entries(CARD_BALANCE)) {
 }
 
 
-const RARITY = { common:"THƯỜNG", rare:"HIẾM", epic:"SỬ THI", legendary:"HUYỀN THOẠI" };
+const RARITY = { common:"THƯỜNG", rare:"HIẾM", epic:"SỬ THI", legendary:"HUYỀN THOẠI", mythic:"HIẾM NHẤT" };
 const state = {
   player:"w",
   deck:"handicap",
@@ -236,6 +237,64 @@ function renderHistory(){
     : '<div class="empty-state">Chưa có lá bài nào được rút.</div>';
 }
 
+
+function isDiceCard(card){
+  return card?.special==="dice";
+}
+
+function rollDice(){
+  const result=randomInt(6)+1;
+  $("diceValue").textContent=result;
+  $("diceText").textContent="LƯỢT KẾ TIẾP: ĐI "+result+" NƯỚC LIÊN TIẾP";
+  $("diceResult").classList.add("revealed");
+  return result;
+}
+
+function openEffectList(){
+  const groups=[
+    ["CHẤP QUÂN","handicap"],
+    ["VẬN KHAI CUỘC","opening"],
+    ["VẬN TRUNG CUỘC","midgame"],
+    ["CƠ HỘI CUỐI","lastChance"]
+  ];
+  $("effectList").innerHTML=groups.map(([title,key])=>`
+    <div class="effect-group">
+      <div class="effect-group-title">${title} <span>${DECKS[key].length} lá</span></div>
+      <div class="effect-items">
+        ${DECKS[key].map(card=>`
+          <button class="effect-item" data-effect-id="${card.id}" data-effect-deck="${key}">
+            <span class="effect-item-icon">${card.icon}</span>
+            <span class="effect-item-name">${card.name}</span>
+            <span class="effect-item-rarity rarity-${card.rarity}">${RARITY[card.rarity]}</span>
+          </button>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+
+  document.querySelectorAll("[data-effect-id]").forEach(btn=>{
+    btn.onclick=()=>{
+      const deck=DECKS[btn.dataset.effectDeck];
+      const card=deck.find(item=>item.id===btn.dataset.effectId);
+      showEffectDetail(card);
+    };
+  });
+  $("effectsModal").classList.add("active");
+}
+
+function showEffectDetail(card){
+  const type=card.type==="bad"?"BẤT LỢI":card.type==="luck"?"MAY RỦI":"LỢI THẾ";
+  const fullRule=card.special==="dice"
+    ? "Người rút thả xúc xắc 1 lần. Kết quả từ 1 đến 6 quyết định số nước liên tiếp được thực hiện ở lượt đi tiếp theo. Ví dụ: đổ 4 thì lượt kế tiếp được đi 4 nước liên tiếp, với điều kiện từng nước vẫn hợp lệ theo luật chơi. Đây là lá hiếm nhất trong toàn bộ hệ thống."
+    : (card.desc || "Chưa có mô tả luật.");
+  $("effectDetailIcon").textContent=card.icon;
+  $("effectDetailTitle").textContent=card.name;
+  $("effectDetailRarity").textContent=RARITY[card.rarity];
+  $("effectDetailType").textContent=type;
+  $("effectDetailText").textContent=fullRule;
+  $("effectDetailModal").classList.add("active");
+}
+
 function showCard(card){
   $("cardRarity").textContent=RARITY[card.rarity];
   $("cardRarity").className="card-rarity rarity-"+card.rarity;
@@ -249,6 +308,18 @@ function showCard(card){
     '<span class="card-description-text">'+(card.outcome ? card.outcome.title+" — "+card.outcome.desc : (card.desc || ""))+'</span>';
 
   $("cardMeta").textContent=deckName(state.deck)+" • "+playerName(state.player)+" • RÚT NGẪU NHIÊN";
+  $("cardActionBtn").textContent=isDiceCard(card)?"🎲 THẢ XÚC XẮC":"ĐÃ HIỂU";
+  $("cardActionBtn").onclick=()=>{
+    if(isDiceCard(card)){
+      $("cardModal").classList.remove("active");
+      $("diceValue").textContent="?";
+      $("diceText").textContent="SẴN SÀNG THẢ XÚC XẮC";
+      $("diceResult").classList.remove("revealed");
+      $("diceModal").classList.add("active");
+    }else{
+      $("cardModal").classList.remove("active");
+    }
+  };
   $("cardModal").classList.add("active");
 }
 
@@ -269,6 +340,9 @@ function resetAll(){
   renderStats();
   renderHistory();
   $("cardModal").classList.remove("active");
+  $("diceModal").classList.remove("active");
+  $("effectsModal").classList.remove("active");
+  $("effectDetailModal").classList.remove("active");
 }
 
 document.querySelectorAll("[data-deck]").forEach(btn=>{
@@ -289,6 +363,19 @@ $("drawBtn").onclick=draw;
 $("resetBtn").onclick=resetAll;
 $("cardCloseBtn").onclick=()=>$("cardModal").classList.remove("active");
 $("rulesBtn").onclick=()=>$("rulesModal").classList.add("active");
+$("effectsBtn").onclick=openEffectList;
+$("diceRollBtn").onclick=()=>{
+  const result=rollDice();
+  if(state.currentCard){
+    state.history.unshift({
+      index:state.history.length+1,
+      player:state.player,
+      deck:state.deck,
+      card:{...state.currentCard, type:"good", outcome:{title:"XÚC XẮC: "+result,desc:"Lượt kế tiếp được đi "+result+" nước liên tiếp."}}
+    });
+    renderHistory();
+  }
+};
 document.querySelectorAll("[data-close]").forEach(btn=>{
   btn.onclick=()=>$(btn.dataset.close).classList.remove("active");
 });
