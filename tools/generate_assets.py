@@ -9,7 +9,7 @@ def F(n,b=False): return ImageFont.truetype(BOLD if b else FONT,n)
 NAVY=(8,12,20); PANEL=(18,24,36); WHITE=(238,242,248); GOLD=(220,170,70); CYAN=(66,190,214)
 RARITY={"common":(120,150,180),"rare":(75,150,225),"epic":(160,95,220),"legendary":(225,155,55),"mythic":(235,75,95)}
 def save(im,path,fmt="PNG"):
-    p=ROOT/path; p.parent.mkdir(parents=True,exist_ok=True); im.save(p,fmt,quality=92 if fmt=="JPEG" else None)
+    p=ROOT/path; p.parent.mkdir(parents=True,exist_ok=True); im.save(p,fmt,quality=92) if fmt=="JPEG" else im.save(p,fmt)
 def grad(size,a,b):
     w,h=size; im=Image.new("RGB",size); q=im.load()
     for y in range(h):
