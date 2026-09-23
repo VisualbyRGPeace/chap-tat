@@ -182,9 +182,6 @@ function renderMoves(){
   $('moveHistory').innerHTML=state.moves.map((m,i)=>`<div class="move-row"><span class="move-num">${Math.floor(i/2)+1}${i%2?'...':'.'}</span><span>${m}</span></div>`).join('');
 }
 function renderActive(){
-  for(const c of ['w','b']){
-    $(c==='w'?'whiteActive':'blackActive')?.remove();
-  }
   $('whiteActive').innerHTML=state.active.w.map(card=>`<div class="mini-card"><strong>${card.icon} ${card.name}</strong><span>${card.desc}</span></div>`).join('');
 }
 function updateHeader(){
@@ -413,7 +410,7 @@ function startMatch(){
 async function runSetup(){
   if(state.settings.handicap){await drawHandicap('w');await drawHandicap('b');}
   if(state.settings.opening){await drawOpening('w');await drawOpening('b');}
-  state.phase='PLAYING';state.current='w';$('drawBtn').disabled=!state.settings.midgame;updateHeader();renderAll();log('Ván đấu bắt đầu. White đi trước.');
+  state.phase='PLAYING';state.current='w';$('drawBtn').disabled=true;updateHeader();renderAll();log('Ván đấu bắt đầu. White đi trước.');
 }
 
 function maybeDrawMidgame(){
@@ -450,14 +447,29 @@ async function applyLastChance(card,color){
 }
 
 function findKingSpawnSquares(color){
-  const game=state.game;const board=game.board();const out=[];
-  const enemy=opponent(color); const files='abcdefgh';
-  for(let r=0;r<8;r++)for(let c=0;c<8;c++){
-    const sq=files[c]+(8-r); if(board[r][c])continue;
-    const temp=cloneBoard(board);temp[r][c]={color,type:'k'};
-    const fen=boardToFen(temp,color,game); let g;try{g=new Chess(fen)}catch{continue;}
-    if(!g.isAttacked(sq,enemy)) out.push(sq);
+  const game=state.game;
+  const board=cloneBoard(game.board());
+  const out=[];
+  const enemy=opponent(color);
+  const files='abcdefgh';
+
+  // Remove the defeated king before testing candidate squares.
+  for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+    if(board[r][c]?.color===color && board[r][c]?.type==='k') board[r][c]=null;
   }
+
+  for(let r=0;r<8;r++) for(let c=0;c<8;c++){
+    const sq=files[c]+(8-r);
+    if(board[r][c]) continue;
+    const temp=cloneBoard(board);
+    temp[r][c]={color,type:'k'};
+    const fen=boardToFen(temp,color,game);
+    try{
+      const g=new Chess(fen);
+      if(!g.isAttacked(sq,enemy)) out.push(sq);
+    }catch(e){}
+  }
+
   return out.sort(()=>Math.random()-.5);
 }
 
