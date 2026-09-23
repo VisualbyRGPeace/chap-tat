@@ -53,3 +53,12 @@
 @media(max-width:1050px){.card-layout{grid-template-columns:210px minmax(360px,1fr);}.history-panel{grid-column:1/-1}.draw-history{max-height:220px}.draw-history-row{grid-template-columns:30px 70px 1fr}.draw-history-row strong{grid-column:auto}}
 @media(max-width:700px){.card-layout{grid-template-columns:1fr;padding:10px;min-height:auto}.side-panel{display:block}.history-panel{display:block}.draw-area{min-height:620px}.draw-header{display:block;text-align:center}.draw-header>div:first-child{justify-content:center;margin-bottom:8px}.draw-stage{min-height:420px}.deck-list{grid-template-columns:1fr 1fr}.stats{display:none}}
 @media(max-width:480px){.deck-list{grid-template-columns:1fr}.draw-area{min-height:560px}.draw-stage{min-height:350px}.card-back{width:210px}}
+
+/* Nhãn kết quả của lá bài */
+.card-desc{display:flex;flex-direction:column;gap:10px;align-items:center}
+.card-type{display:inline-flex;align-items:center;justify-content:center;padding:6px 10px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.08em}
+.card-type-good{background:rgba(64,190,120,.12);color:#72e0a4;border:1px solid rgba(64,190,120,.28)}
+.card-type-bad{background:rgba(225,78,78,.12);color:#ff8585;border:1px solid rgba(225,78,78,.30)}
+.card-type-luck{background:rgba(229,177,72,.13);color:#f3cb72;border:1px solid rgba(229,177,72,.30)}
+.card-description-text{display:block}
+.history-effect{display:block;margin-top:3px;font-size:9px;font-style:normal;letter-spacing:.05em;opacity:.7}
