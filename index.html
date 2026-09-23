@@ -14,7 +14,7 @@
   <div id="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">🎴</div>
+        <div class="brand-mark" aria-label="Logo CHẤP TẤT"><img src="./assets/logo/logo.png" alt="CHẤP TẤT" onerror="this.style.display='none';this.parentElement.classList.add('asset-fallback');this.parentElement.textContent='🎴'"></div>
         <div><div class="brand-name">CHẤP TẤT</div><div class="brand-sub">HỆ THỐNG RÚT BÀI</div></div>
       </div>
       <div class="top-actions">
@@ -29,17 +29,17 @@
         <section class="panel-section">
           <div class="section-title">NGƯỜI RÚT</div>
           <div class="player-switch">
-            <button class="player-btn" data-player="w">TRẮNG</button>
-            <button class="player-btn" data-player="b">ĐEN</button>
+            <button class="player-btn" data-player="w"><span class="player-icon player-icon-white" aria-hidden="true"></span><span>TRẮNG</span></button>
+            <button class="player-btn" data-player="b"><span class="player-icon player-icon-black" aria-hidden="true"></span><span>ĐEN</span></button>
           </div>
         </section>
         <section class="panel-section">
           <div class="section-title">BỘ BÀI</div>
           <div class="deck-list">
-            <button class="deck-btn active" data-deck="handicap"><span>⚖️</span><b>CHẤP QUÂN</b><small>20 lá</small></button>
-            <button class="deck-btn" data-deck="opening"><span>♟️</span><b>VẬN KHAI CUỘC</b><small>20 lá</small></button>
-            <button class="deck-btn" data-deck="midgame"><span>⚡</span><b>VẬN TRUNG CUỘC</b><small>21 lá</small></button>
-            <button class="deck-btn" data-deck="lastChance"><span>👑</span><b>CƠ HỘI CUỐI</b><small>20 lá</small></button>
+            <button class="deck-btn active" data-deck="handicap"><span class="deck-icon deck-icon-handicap" aria-hidden="true"></span><b>CHẤP QUÂN</b><small>20 lá</small></button>
+            <button class="deck-btn" data-deck="opening"><span class="deck-icon deck-icon-opening" aria-hidden="true"></span><b>VẬN KHAI CUỘC</b><small>20 lá</small></button>
+            <button class="deck-btn" data-deck="midgame"><span class="deck-icon deck-icon-midgame" aria-hidden="true"></span><b>VẬN TRUNG CUỘC</b><small>21 lá</small></button>
+            <button class="deck-btn" data-deck="lastChance"><span class="deck-icon deck-icon-last-chance" aria-hidden="true"></span><b>CƠ HỘI CUỐI</b><small>20 lá</small></button>
           </div>
         </section>
         <section class="panel-section stats">
@@ -56,7 +56,7 @@
 
         <div class="draw-stage">
           <div class="card-back">
-            <div class="card-back-pattern">🎴</div>
+            <div class="card-back-pattern"><img src="./assets/cards/card-back.png" alt="Mặt sau lá bài" onerror="this.style.display='none';this.parentElement.classList.add('asset-fallback');this.parentElement.textContent='🎴'"></div>
             <div class="card-back-title">CHẤP TẤT</div>
             <div class="card-back-sub">LÁ ĐỊNH MỆNH</div>
           </div>
